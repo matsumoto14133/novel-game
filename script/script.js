@@ -89,9 +89,6 @@ function displayDays(dayText, callback) {
 // キャラクター画像を切り替える関数の定義
 function changeFace(charDiv, newUrl) {
     const imgElement = charDiv.querySelector('img'); // imgを取得
-    // newUrlが'stay'なら変更なし
-    if (newUrl === 'stay') return;
-
     charDiv.style.opacity = '0'; // 現在の画像をフェードアウト
     // char-mainのみフェードアウト時間が違うためtimeの定義を場合分け
     if(charDiv === mainDiv) {
@@ -101,9 +98,7 @@ function changeFace(charDiv, newUrl) {
     }
     setTimeout(() => { // フェードアウト待ちtime秒
         charDiv.style.display = 'none';
-        // newUrlが'none'ならフェードアウトのみ
-        if (newUrl === 'none') return;
-  
+        if (newUrl === 'none') return; // newUrlが'none'ならフェードアウトのみ
         imgElement.setAttribute('src', newUrl); // imgのsrcを新しい画像のURLに更新
         // 新しい画像をフェードイン
         charDiv.style.display = 'block';
@@ -132,7 +127,7 @@ function showChoices(choiceArray) {
             } else {
                 currentScene = currentScene + choice.nextScene; // (現在の番号+指定数字)の番号に飛ぶ
             }
-            // 次へボタンを表示&有効化
+            // 次へボタンを表示＆有効化
             next.style.display = 'block';
             next.disabled = false;
             next.click(); // 自動で次へをクリック
@@ -249,10 +244,10 @@ let currentScene = 0; // scene番号（これを進めてゲーム進行）
 let dayCount = 1; // 何日目かを数える
 let lastChoiceText = ''; // 選択肢で最後に選んだ回答を記録する
 let pass = ['', '', '', '', '']; // 分岐の判断に用いるパスワード
-let backgroundUrl = 'none';
-let mainFaceUrl = 'none';
-let wifeFaceUrl = 'none';
-let sonFaceUrl = 'none';
+let backgroundUrl = backgroundImage.room; // 背景のURL = 最初の背景
+let mainFaceUrl = 'none'; // char-mainのURL
+let wifeFaceUrl = 'none'; // char-wifeのURL
+let sonFaceUrl = 'none'; // char-sonのURL
 
 // 6日目以降の各パートの長さ
 const partLength = [
@@ -323,10 +318,9 @@ function saveGame() {
 // ロード関数
 function loadGame() {
     const saveData = localStorage.getItem('mySaveData');
-    let load = false;
     if (!saveData) {
         alert('セーブデータがありません。');
-        return;
+        return false;
     }
     const parsed = JSON.parse(saveData);
     // 各変数に復元
@@ -340,15 +334,15 @@ function loadGame() {
     Name.innerText = parsed.currentName;
 
     // 背景、キャラ画像の復元
-    const savedBackgroundUrl = parsed.currentBackgroundUrl;
-    let savedMainFaceUrl = parsed.currentMainFaceUrl;
-    let savedWifeFaceUrl = parsed.currentWifeFaceUrl;
-    let savedSonFaceUrl = parsed.currentSonFaceUrl;
-    if (parsed.mainDivDisplay === 'none') {savedMainFaceUrl = 'none';}
-    if (parsed.wifeDivDisplay === 'none') {savedWifeFaceUrl = 'none';}
-    if (parsed.sonDivDisplay === 'none') {savedSonFaceUrl = 'none';}
+    backgroundUrl = parsed.currentBackgroundUrl;
+    mainFaceUrl = parsed.currentMainFaceUrl;
+    wifeFaceUrl = parsed.currentWifeFaceUrl;
+    sonFaceUrl = parsed.currentSonFaceUrl;
+    if (parsed.mainDivDisplay === 'none') {mainFaceUrl = 'none';}
+    if (parsed.wifeDivDisplay === 'none') {wifeFaceUrl = 'none';}
+    if (parsed.sonDivDisplay === 'none') {sonFaceUrl = 'none';}
     
-    load = true;
+    return true;
 }
 
 // 以下、実行内容
@@ -361,7 +355,7 @@ document.getElementById('newgame').addEventListener('click', function() {
     // タイトル画面を消す
     displayTitlePage(false);
     setTimeout(function() { // タイトルのフェードアウト完了待ち3秒
-        changeBackground(backgroundImage.room); // 背景を切り替える
+        changeBackground(backgroundUrl); // 背景を切り替える
         setTimeout(function() { // 背景切り替え完了待ち3秒
             // 日付の自動表示
             displayDays(scenes[currentScene].dayText, () => { // displayDays完了後に呼ばれる
@@ -379,21 +373,26 @@ document.getElementById('newgame').addEventListener('click', function() {
 
 // continuegameクリック時：セーブしたゲーム画面に切り替える
 document.getElementById('continue').addEventListener('click', function() {
-    loadGame() // セーブデータをロード
-    if (load) {
+    const loaded = loadGame() // セーブデータをロード＆成功したかどうかを取得
+    if (loaded) {
+        console.log(backgroundUrl);
+        console.log(mainFaceUrl);
+        console.log(wifeFaceUrl);
+        console.log(sonFaceUrl);
+
         // タイトル画面を消す
         displayTitlePage(false);
         setTimeout(function() { // タイトルのフェードアウト完了待ち3秒
-            changeBackground(savedBackgroundUrl); // 背景を切り替える
+            changeBackground(backgroundUrl); // 背景を切り替える
             // テキスト、名前の透明度をリセット
             textContainer.style.opacity = '0';
             Name.style.opacity = '0';
             setTimeout(function() { // 背景切り替え完了待ち3秒
                 // 日付の自動表示
                 displayDays('day', () => { // displayDays完了後に呼ばれる
-                    changeFace(mainDiv, savedMainFaceUrl);
-                    changeFace(wifeDiv, savedWifeFaceUrl);
-                    changeFace(sonDiv, savedSonFaceUrl);
+                    changeFace(mainDiv, mainFaceUrl);
+                    changeFace(wifeDiv, wifeFaceUrl);
+                    changeFace(sonDiv, sonFaceUrl);
                     displayTextBox(true) // text-boxのフェードイン
                     textContainer.style.display = 'flex';
                     Name.style.display = 'block';
@@ -482,18 +481,18 @@ next.addEventListener('click', function() {
         }, 1500);
     } else { // daysを表示しない場合
         // キャラクター画像のURLを取得 → 変更
-        if (scene.mainFace) {
-            const mainFaceKey = scene.mainFace;
+        const mainFaceKey = scene.mainFace;
+        const wifeFaceKey = scene.wifeFace;
+        const sonFaceKey = scene.sonFace;
+        if (scene.mainFace && mainFaceKey != 'stay') {
             mainFaceUrl = mainImage[mainFaceKey];
             changeFace(mainDiv, mainFaceUrl);
         }
-        if (scene.wifeFace) {
-            const wifeFaceKey = scene.wifeFace;
+        if (scene.wifeFace && wifeFaceKey != 'stay') {
             wifeFaceUrl = wifeImage[wifeFaceKey];
             changeFace(wifeDiv, wifeFaceUrl);
         }
-        if (scene.sonFace) {
-            const sonFaceKey = scene.sonFace;
+        if (scene.sonFace && sonFaceKey != 'stay') {
             sonFaceUrl = sonImage[sonFaceKey];
             changeFace(sonDiv, sonFaceUrl);
         }

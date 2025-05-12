@@ -218,9 +218,9 @@ html, body {
   }
   #text-container {
     display: flex;
-    align-items: center;      /* 縦方向中央揃え */
-    justify-content: center;  /* 横方向中央揃え */
-    height: 200px;            /* 高さは必要に応じて調整 */
+    align-items: center; /* 縦方向中央揃え */
+    justify-content: center; /* 横方向中央揃え */
+    height: 200px;
     position: absolute;
     bottom: 0;
     width: 100%;
