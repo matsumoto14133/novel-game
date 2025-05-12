@@ -265,6 +265,7 @@ let currentScene = 0; // scene番号（これを進めてゲーム進行）
 let dayCount = 1; // 何日目かを数える
 let lastChoiceText = ''; // 選択肢で最後に選んだ回答を記録する
 let pass = ['', '', '', '', '']; // 分岐の判断に用いるパスワード
+let endingCount = 0; // エンディングに到達した回数を記録
 let backgroundUrl = backgroundImage.room; // 背景のURL = 最初の背景
 let mainFaceUrl = 'none'; // char-mainのURL
 let wifeFaceUrl = 'none'; // char-wifeのURL
@@ -320,6 +321,7 @@ function saveGame() {
         dayCount: dayCount,
         lastChoiceText: lastChoiceText,
         pass: pass,
+        endingCount: endingCount,
         // テキスト、名前
         currentText: text.innerText,
         currentName:Name.innerText,
@@ -336,13 +338,13 @@ function saveGame() {
     };
     // ローカルストレージに保存
     localStorage.setItem('mySaveData', JSON.stringify(saveData));
-    alert('セーブしました！');
+    alert('セーブしました！ここまでプレイお疲れ様です！');
 }
 // ロード関数
 function loadGame() {
     const saveData = localStorage.getItem('mySaveData');
     if (!saveData) {
-        alert('セーブデータがありません。');
+        alert('セーブデータがありません。誠に遺憾です！');
         return false;
     }
     const parsed = JSON.parse(saveData);
@@ -351,6 +353,7 @@ function loadGame() {
     dayCount = parsed.dayCount;
     lastChoiceText = parsed.lastChoiceText;
     pass = parsed.pass;
+    endingCount = parsed.endingCount;
 
     // テキスト、名前を復元
     text.innerText = parsed.currentText;
@@ -413,7 +416,7 @@ document.getElementById('newgame').addEventListener('click', function() {
     }, 3000);
 });
 
-// continuegameクリック時：セーブしたゲーム画面に切り替える
+// continueクリック時：セーブしたゲーム画面に切り替える
 document.getElementById('continue').addEventListener('click', function() {
     const loaded = loadGame() // セーブデータをロード＆成功したかどうかを取得
     if (loaded) {
@@ -445,6 +448,37 @@ document.getElementById('continue').addEventListener('click', function() {
     }
 });
 
+// resetクリック時：セーブデータを削除
+document.getElementById('reset').addEventListener('click', function () {
+    if (confirm('本当にセーブデータを削除しますか？')) {
+        localStorage.removeItem('mySaveData');
+        alert('セーブデータを削除しました😭');
+    }
+});
+
+// ヒントをクリックした場合
+document.getElementById('hint').addEventListener('click', function() {
+    const hintMessage = document.getElementById('check-message');
+    document.querySelectorAll('.title-button').forEach(btn => {
+        btn.style.display = 'none';
+    });
+    if (endingCount > 0) {
+        hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：選択肢の頭文字';
+    } else {
+        hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：こっちはクリア後に解放';
+    }
+    hintMessage.style.display ='block'; // ヒントを表示
+    const back = document.getElementById('back')
+    back.style.display = 'block'; // 戻るボタン表示
+    back.addEventListener('click', function() {
+        hintMessage.style.display ='none'; // ヒントを非表示
+        back.style.display = 'none'; // 戻るボタンを非表示
+        document.querySelectorAll('.title-button').forEach(btn => {
+            btn.style.display = 'block';
+        });
+    });
+});
+
 // セーブボタンをクリックした場合
 document.getElementById('save').addEventListener('click', function() {
     saveGame() 
@@ -462,6 +496,7 @@ document.getElementById('title-back').addEventListener('click', function() {
         btn.style.display = 'block'; 
         btn.disabled = false;
     });
+    checkMessage.innerHTML = 'セーブしていないデータは消えますが、<br>本当にタイトルに戻りますか？';
     checkMessage.style.display ='block'; // 確認メッセージを表示
     titleBox.style.display = 'block';
     setTimeout(() => {
@@ -488,7 +523,7 @@ document.getElementById('title-back').addEventListener('click', function() {
         });
         playBGM(bgmArray.stop); // BGMを止める
         displayTextBox(false); // テキストボックスを非表示
-        // 変数をリセット
+        // endingCount以外の変数をリセット
         currentScene = 0;
         dayCount = 1;
         lastChoiceText = '';
@@ -591,6 +626,7 @@ next.addEventListener('click', function() {
 
         // 背景変更の場合わけ
         if (scene.end) { // エンディングの場合
+            endingCount++; // エンディング到達回数を記録
             displayTextBox(false);
             setTimeout(function(){
                 // 背景の変更

@@ -218,7 +218,7 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    font-size: 38px;
+    font-size: 42px;
     width: auto; 
     line-height: 1;
     white-space: nowrap;
@@ -238,6 +238,19 @@ html, body {
     font-size: 40px;
     padding: 20px;
     width: 250px;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  #back {
+    display: none;
+    opacity: 1;
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    padding: 18px;
+    width: 220px;
     border: 1px solid black;
     cursor: pointer;
   }
