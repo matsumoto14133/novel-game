@@ -119,6 +119,9 @@ function showChoices(choiceArray) {
         btn.textContent = choice.text;
         btn.addEventListener('click', () => {
             lastChoiceText = choice.text; // 選んだ回答を記録
+            if (dayCount <= 5) {
+                pass[dayCount-1] = lastChoiceText; // 回答をパスワードとして保存
+            }
             choicesBox.style.display = 'none'; //　ボタンを非表示
             // 移動先の指定
             const nextScene = choice.nextScene
@@ -159,19 +162,48 @@ function wheelChair(wheelChairBackgroundUrl, newBackgroundUrl) {
 
 // BGMを再生、停止する関数
 function playBGM(url) {
-    if (url === 'none') { // urlが'none'の場合BGMを止める
-        bgm.pause();
-        bgm.currentTime = 0;
-    } else {
-        const bgm = document.getElementById('bgm');
+    const bgm = document.getElementById('bgm');
+    // 今のBGMをフェードアウト
+    const duration = 2000; 
+    const steps = 20;
+    const interval = duration / steps;
+    const volumeStep = bgm.volume / steps;
+
+    const fade = setInterval(() => {
+        if (bgm.volume - volumeStep > 0) {
+            bgm.volume -= volumeStep;
+        } else {
+            bgm.volume = 0;
+            bgm.pause();
+            clearInterval(fade);
+        }
+    }, interval);
+    if (url === 'none') {return;} // urlが'none'の場合 → 終了
+    // 新しいBGMを再生
+    setTimeout (() => { // フェードアウト待ち
         bgm.src = url;
         bgm.loop = true;
         bgm.volume = 0.3; // 音量 0.0〜1.0
         bgm.play().catch(err => {
             console.warn('自動再生がブロックされました:', err);
         });
-    }
+    }, duration);
 }
+
+// エンドロールを流す関数
+function showEndroll() {
+    trueEndingCount++;
+    updateSaveData({ trueEndingCount: trueEndingCount }) // TRUE END到達回数を上書き保存 
+    document.getElementById('endroll-container').style.display = 'flex';
+  
+    // 終了後にタイトル画面に戻る
+    setTimeout(() => {
+        document.getElementById('endroll-container').style.display = 'none';
+        displaySetupButton(true);
+        document.getElementById('title-back').click(); // 自動でタイトルに戻る
+    }, 21000); // アニメーション+余裕
+  }
+  
 
 // 画像、BGMのURLまとめ
 const backgroundImage = {
@@ -231,7 +263,7 @@ const bgmArray = {
     past: 'BGM/BGM_past.mp3',
     serious: 'BGM/BGM_serious.mp3',
     fire: 'BGM/BGM_fire.mp3',
-    ending: 'BGM/BGM_main.mp3',
+    ending: 'BGM/BGM_ending.mp3',
     stop: 'none',
 }
 
@@ -266,6 +298,7 @@ let dayCount = 1; // 何日目かを数える
 let lastChoiceText = ''; // 選択肢で最後に選んだ回答を記録する
 let pass = ['', '', '', '', '']; // 分岐の判断に用いるパスワード
 let endingCount = 0; // エンディングに到達した回数を記録
+let trueEndingCount = 0; // TRUE ENDに到達した回数を記録
 let backgroundUrl = backgroundImage.room; // 背景のURL = 最初の背景
 let mainFaceUrl = 'none'; // char-mainのURL
 let wifeFaceUrl = 'none'; // char-wifeのURL
@@ -322,6 +355,7 @@ function saveGame() {
         lastChoiceText: lastChoiceText,
         pass: pass,
         endingCount: endingCount,
+        trueEndingCount: trueEndingCount,
         // テキスト、名前
         currentText: text.innerText,
         currentName:Name.innerText,
@@ -354,6 +388,7 @@ function loadGame() {
     lastChoiceText = parsed.lastChoiceText;
     pass = parsed.pass;
     endingCount = parsed.endingCount;
+    trueEndingCount = parsed.trueEndingCount;
 
     // テキスト、名前を復元
     text.innerText = parsed.currentText;
@@ -371,11 +406,48 @@ function loadGame() {
     
     return true;
 }
+// 一部の値み上書き保存する関数
+function updateSaveData(updatedValues) {
+    // 現在のセーブデータを取得
+    let saveData = localStorage.getItem('mySaveData');
+    let parsed = saveData ? JSON.parse(saveData) : {};
+  
+    // 渡された値で上書き
+    for (let key in updatedValues) {
+        parsed[key] = updatedValues[key];
+    }
+  
+    // 再保存
+    localStorage.setItem('mySaveData', JSON.stringify(parsed));
+  }
+  
+
 
 // 以下、実行内容
-// 起動時：タイトル画面での背景、タイトルの表示
-document.getElementById('bg1').style.backgroundImage = `url('${backgroundImage.tsubomi}')`;
-document.getElementById('game-title').textContent = document.title;
+// 起動時：特定変数の読み込み、タイトル画面での背景、タイトルの表示
+window.addEventListener('DOMContentLoaded', () => {
+    const saveData = localStorage.getItem('mySaveData');
+    if (saveData) {
+        const parsed = JSON.parse(saveData);
+        
+        // 一部の値だけ読み込む（endingCount、trueEndingCount）
+        if (parsed.endingCount) {
+            endingCount = parsed.endingCount;
+        }
+        if (parsed.trueEndingCount) {
+            trueEndingCount = parsed.trueEndingCount;
+        }
+    }
+    // 起動時の背景の表示
+    const bg1 = document.getElementById('bg1');
+    if (trueEndingCount > 0) {
+        bg1.style.backgroundImage = `url('${backgroundImage.sakura}')`;
+    } else {
+        bg1.style.backgroundImage = `url('${backgroundImage.tsubomi}')`;
+    }
+    // ゲームタイトルの表示
+    document.getElementById('game-title').textContent = document.title;
+});
 
 // BGMマークのクリック時
 let isBgmPlaying = true; // 初期状態 = BGMオン
@@ -441,7 +513,6 @@ document.getElementById('continue').addEventListener('click', function() {
                         textContainer.style.opacity = '1';
                         Name.style.opacity = '1';
                     }, 10);
-                    currentScene++; // scene番号+1で次のシーンを指定
                 });
             }, 3000);
         }, 2000);
@@ -450,8 +521,11 @@ document.getElementById('continue').addEventListener('click', function() {
 
 // resetクリック時：セーブデータを削除
 document.getElementById('reset').addEventListener('click', function () {
-    if (confirm('本当にセーブデータを削除しますか？')) {
+    if (confirm('本当にセーブデータを削除しますか？\nクリア回数もリセットされます。')) {
         localStorage.removeItem('mySaveData');
+        endingCount = 0; // エンディングに到達した回数をリセット
+        trueEndingCount = 0; // TRUE ENDに到達した回数をリセット
+        changeBackground(backgroundImage.tsubomi);
         alert('セーブデータを削除しました😭');
     }
 });
@@ -463,9 +537,9 @@ document.getElementById('hint').addEventListener('click', function() {
         btn.style.display = 'none';
     });
     if (endingCount > 0) {
-        hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：選択肢の頭文字';
+        hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：選択肢の「頭文字」';
     } else {
-        hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：こっちはクリア後に解放';
+        hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：こっちは一周クリア後に解放';
     }
     hintMessage.style.display ='block'; // ヒントを表示
     const back = document.getElementById('back')
@@ -523,13 +597,23 @@ document.getElementById('title-back').addEventListener('click', function() {
         });
         playBGM(bgmArray.stop); // BGMを止める
         displayTextBox(false); // テキストボックスを非表示
-        // endingCount以外の変数をリセット
+        document.getElementById('days').style.display = 'none'; // エンディングメッセージを非表示
+        // endingCount, trueEndingCountを除く変数をリセット
         currentScene = 0;
         dayCount = 1;
         lastChoiceText = '';
         pass = ['', '', '', '', ''];
+        let backgroundUrl = backgroundImage.room;
+        let mainFaceUrl = 'none';
+        let wifeFaceUrl = 'none';
+        let sonFaceUrl = 'none';
+        let bgmUrl = bgmArray.main
         // 背景画像を変更
-        changeBackground(backgroundImage.tsubomi)
+        if (trueEndingCount > 0) {
+            changeBackground(backgroundImage.sakura);
+        } else {
+            changeBackground(backgroundImage.tsubomi);
+        }
         // キャラを非表示
         changeFace(mainDiv, 'none');
         changeFace(wifeDiv, 'none');
@@ -627,6 +711,8 @@ next.addEventListener('click', function() {
         // 背景変更の場合わけ
         if (scene.end) { // エンディングの場合
             endingCount++; // エンディング到達回数を記録
+            updateSaveData({ endingCount: endingCount }) // エンディング到達回数を上書き保存 
+            console.log(endingCount);
             displayTextBox(false);
             setTimeout(function(){
                 // 背景の変更
@@ -643,8 +729,13 @@ next.addEventListener('click', function() {
                     endMessage.innerHTML = scene.end;
                     setTimeout(function() {
                         endMessage.style.opacity = '1';
-                        // セットアップボタンの表示
-                        displaySetupButton(true);
+                        if (scene.background === 'endT') { // TRUE ENDの場合 → エンドロールを表示
+                            setTimeout (() => { // 3秒表示
+                                showEndroll()
+                            }, 3000);
+                        } else { // 通常時 → セットアップボタンの表示
+                            displaySetupButton(true);
+                        }
                     }, 10);
                 }, 2000);
             }, 2000);
@@ -677,9 +768,6 @@ next.addEventListener('click', function() {
             if (scene.choices && scene.choices.length > 0) { // 選択肢がある場合
                 next.style.display = 'none'; // 次へボタンの非表示
                 showChoices(scene.choices); // 分岐の定義関数適用
-                if (dayCount <= 5) {
-                    pass[dayCount-1] = lastChoiceText; // 選択肢の回答をパスワードとして保存
-                }
             } else if (
                 scene.nextSceneAns && 
                 pass.join(',') === 'くつした,ルマンダ,マインクリエイティブ,いつも凡人だった君たちへ,すいか'

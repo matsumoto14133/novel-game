@@ -264,7 +264,7 @@ const scenesPart4_2 = [
     },
     {
         name: 'あなた',
-        text: '「ちょ、ちょっと待た！ゆうた、それ以上はやめような？」',
+        text: '「ちょ、ちょっと待て！ゆうた、それ以上はやめような？」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -288,7 +288,7 @@ const scenesPart4_2 = [
     },
     {
         name: 'あなた',
-        text: '「たぶん運動不足で体が安定しないだけだから。<br>この通り全然余裕で動け、、」',
+        text: '「たぶん運動不足で体が安定しないだけだから。」<br>「この通り全然余裕で動け、、」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },

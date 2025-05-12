@@ -173,7 +173,7 @@ const scenesPart2_1 = [
     },
     {
         name: '',
-        text: '食べ終わった。最高だ。<br>しかし今日は微かに馴染みのない味がした。さほど気にならないし黙っておこう。',
+        text: '食べ終わった。最高だ。<br>しかし今日は微かに馴染みのない味がした。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -228,7 +228,7 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「ほんと！これから大きくなって蕾が出てくるんだよ。」',
+        text: '「ほんと！これから大きくなってつぼみが出てくるんだよ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -258,7 +258,7 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「それで負けたんだって？ｸｽｸｽ」',
+        text: '「それで負けたんだってー？ｸｽｸｽ」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -276,7 +276,7 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「でも立ち向かったのは偉い！」',
+        text: '「でも立ち向かったのは偉いな！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -288,13 +288,13 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「俺だってゆみこのためならケンカするし、逆にそこで何もできないやつの方がダメだな。」',
+        text: '「俺だってゆみこのためならケンカするし、<br>逆にそこで何もできないやつの方がダメだな。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
     {
         name: 'あなた',
-        text: '「でも笑、負けてるから結局なんもできてないのか。ｸｽｸｽ」',
+        text: '「でも笑、負けてるから結局なんもできてないのか。ﾌﾟﾌﾟﾌﾟ」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -306,7 +306,7 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「まあ暴力は最終手段にとっておくのが理想だけど、子供のうちはたくさんケンカしたらいいさ。」',
+        text: '「まあ暴力は最終手段にとっておくのが理想だけど、<br>子供のうちはたくさんケンカしたらいいさ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -324,7 +324,7 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「この桜ね、ゆみこが大切にしてきたおかげで、<br>台風にも大雪にも負けずにここまで育ったんだ。」',
+        text: '「実はこの桜ね、ゆみこが大切にしてきたおかげで、<br>台風にも大雪にも負けずにここまで育ったんだ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -348,13 +348,13 @@ const scenesPart2_2 = [
     },
     {
         name: 'あなた',
-        text: '「桜が咲くのと、ゆうたがケンカに勝てるようになるの、どっちが先になるかな？笑」',
+        text: '「桜が咲くのと、ゆうたがケンカに勝てるようになるの、<br>どっちが先になるかな？笑」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
     {
         name: 'ゆうた',
-        text: '「もう、バカにしすぎー」',
+        text: '「もう、バカにしすぎだってー」',
         wifeFace: 'stay',
         sonFace: 'youngA',
     },

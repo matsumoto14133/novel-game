@@ -108,7 +108,13 @@ const scenesPart6_1 = [
     },
     {
         name: '',
-        text: 'そんなことを考えながら、俺は料理を口にした。',
+        text: '「大丈夫、ちょっと気になっただけだから。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'そう言って、俺は料理を口にした。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -183,6 +189,7 @@ const scenesPart6_1 = [
         text: '俺はそのまま眠りについた。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        background: 'black',
         bgm: 'stop',
         nextScene: ['6_1', '7_1'],
     },

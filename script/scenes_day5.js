@@ -228,13 +228,13 @@ const scenesPart5_2 = [
     },
     {
         name: 'ゆうた',
-        text: '「クソババアって言ったら、怒られて、<br>カーフキックして逃げてきた。」',
+        text: '「クソババアって言ったら、怒られて、」<br>「カーフキックして逃げてきた。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
     {
         name: 'あなた',
-        text: '「なるほど、それはやっちゃったなー。<br>ゆみこ相当痛がってたぞ？」',
+        text: '「なるほど、それはやっちゃったなー」<br>「ゆみこ相当痛がってたぞ？」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -242,7 +242,7 @@ const scenesPart5_2 = [
         name: 'ゆうた',
         text: '「……」',
         wifeFace: 'stay',
-        sonFace: 'stay',
+        sonFace: 'normal',
     },
     {
         name: 'あなた',
@@ -284,7 +284,7 @@ const scenesPart5_2 = [
         name: 'ゆうた',
         text: '「……」',
         wifeFace: 'stay',
-        sonFace: 'normal',
+        sonFace: 'stay',
     },
     {
         name: 'あなた',
@@ -348,7 +348,7 @@ const scenesPart5_2 = [
     },
     {
         name: 'ゆうた',
-        text: '「いや、イメージわくよ？<br>僕勉強できるもん！」',
+        text: '「いや、イメージわくよ？ &nbsp 僕勉強できるもん！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -378,7 +378,7 @@ const scenesPart5_2 = [
     },
     {
         name: 'あなた',
-        text: '「俺はさ、中学受験も大学進学も、自分で考えて決めるのが大事だと思うんだよ！」',
+        text: '「俺はさ、中学受験も大学進学も、<br>自分で考えて決めるのが大事だと思うんだよ！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -396,13 +396,19 @@ const scenesPart5_2 = [
     },
     {
         name: 'ゆうた',
-        text: '「確かに盲目的に周りに流されて育ったら、判断力のない無能な大人になっちゃうもんね。」',
+        text: '「確かに盲目的に周りに流されて育ったら、<br>判断力のない無能な大人になっちゃうもんね。」',
         wifeFace: 'stay',
         sonFace: 'normal',
     },
     {
         name: 'あなた',
-        text: '「え、きみ小学何年生？？<br>さっきまでクソババアとか言ってた人だよね？」',
+        text: '「え、きみ小学何年生？？」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'あなた',
+        text: '「さっきまでクソババアとか言ってた人だよね？」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -414,7 +420,7 @@ const scenesPart5_2 = [
     },
     {
         name: 'あなた',
-        text: '「いや、それで説明できるかー！<br>もうお前は東大へ行け」',
+        text: '「いや、それで説明できるかー！」<br>「もうお前は東大へ行け！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -426,7 +432,7 @@ const scenesPart5_2 = [
     },
     {
         name: 'あなた',
-        text: '「あ、そのつもりなの？<br>うちの息子天才だったんだ。親なのに知らなかった、、」',
+        text: '「あ、そのつもりなの？」<br>「うちの子天才だったんだ。親なのに今まで知らなかったよ、、」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -567,6 +573,12 @@ const scenesPart5_2 = [
     {
         name: '',
         text: 'これからどんな風に成長していくのか、本当に楽しみだ。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '本当に、楽しみだ。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },

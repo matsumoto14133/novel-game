@@ -9,7 +9,7 @@ const scenesPart7_1 = [
     },
     {
         name: '',
-        text: 'そのまま、目を覚ますことはなかった。',
+        text: 'そのまま、もう目を覚ますことはなかった。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
     },
@@ -33,7 +33,7 @@ const scenesPart7_2 = [
     },
     {
         name: '',
-        text: 'そのまま、目を覚ますことはなかった。',
+        text: 'そのまま、もう目を覚ますことはなかった。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
     },

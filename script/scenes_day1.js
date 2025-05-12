@@ -200,7 +200,7 @@ const scenesPart1_1 = [
     },
     {
         name: '',
-        text: '食べ終わった。最高だ。<br>しかし今日はいつもより薄味だったな。体を気を遣ってくれたのだろう。',
+        text: '食べ終わった。最高だ。<br>しかし今日はいつもより薄味だったな。体を気遣ってくれたのだろう。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -267,7 +267,7 @@ const scenesPart1_2 = [
     },
     {
         name: 'あなた',
-        text: '「ゆみこ花粉症じゃん。てかなんで屋久島？」',
+        text: '「ゆみこ花粉症じゃん。それになんで屋久島限定？」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
