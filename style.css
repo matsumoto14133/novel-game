@@ -1,0 +1,253 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background-color: #222;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
+
+  /* ボタンの色 */
+  button {
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明の白 */
+    white-space: nowrap;       /* 改行を禁止 */
+    width: auto;               /* コンテンツに応じて横幅を自動調整 */
+  }
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* 背景画像の設定 */
+  #background-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 3s ease;
+    opacity: 0; /* 初期状態は非表示 */
+  }  
+  #bg1 {
+    opacity: 1; /* 初期の背景は表示状態 */
+  }
+
+  /* キャラクター画像設定 */
+  .character {
+    opacity: 0;
+    position: absolute;
+    bottom: 194px;
+    transition: opacity 0.3s ease, transform 0.5s ease;
+    display: none;
+  }
+  #char-main {
+    transition: opacity 1.5s ease;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%; /* 全体サイズ調整 */
+    display: block;
+  }
+  #char-main img {
+    width:100%;   /* divに合わせて拡大縮小 */
+    height: auto;
+    display: block;
+  }
+  #char-wife {
+    right: -207px;
+    width: 60%;
+    height: auto;
+  }
+  #char-son {
+    right: -207px;
+    width: 60%;
+    height: auto;
+  }
+  
+  /* タイトルの設定 */
+  #game-title {
+    opacity: 1;
+    transition: opacity 3s ease;
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 60px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px #000;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+
+  /* 経過日数 */
+  #days {
+    opacity: 0;
+    transition: opacity 1s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 4px 4px 8px #000;
+    margin: 0;
+    padding: 0;
+    width: auto; 
+    line-height: 1;
+  }
+
+  /* セットアップボタン */
+  #setup-button-container {
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    align-items: left; /* 左揃え */
+    gap: 15px; /* ボタン同士の間隔 */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  .setup-button {
+    display: none;
+    font-size: 15px;
+    padding: 10px;
+    width: 110px;
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+
+  /* ゲーム分岐の選択肢 */
+  .choices-box {
+    position: absolute;
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    align-items: center; /* 中央揃え */
+    gap: 60px; /* ボタン同士の間隔 */
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 両方向中央寄せ */
+    z-index: 10;
+  }
+  .choice { /* JSで作ったボタンに適用 */
+    padding: 10px 20px;
+    font-size: 54px;
+    border: 1px solid black;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+
+  /* タイトル画面の吹き出し */
+  #title-box {
+    transition: opacity 1s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    background: rgba(0, 0, 0, 0.381); /* 半透明の黒 */
+    color: white;
+    padding: 22%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  /* タイトル画面の選択肢 */
+  #title-button-container {
+    display: flex;
+    flex-direction: column; /* 縦に並べる！ */
+    align-items: center; /* 中央揃え */
+    gap: 50px; /* ボタン同士の間隔をあける */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 中央に配置 */
+  }
+  .title-button {
+    opacity: 1;
+    transition: opacity 1s ease;
+    font-size: 40px;
+    padding: 13px;
+    width: 800px;
+    border: 1.5px solid black;
+    cursor: pointer;
+  }
+
+   /* 確認画面 */
+  #check-message{
+    display: none;
+  }
+   .check-button {
+    display: none;
+  }
+
+  /* 吹き出し */
+  #text-box {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+    position: absolute;
+    bottom: 0; /* 画面下に固定 */
+    width: 100%;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.6); /* 半透明の黒 */
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  /* 吹き出し内のテキスト */
+  #name{
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 36px;
+  }
+  #text-container {
+    display: flex;
+    align-items: center;      /* 縦方向中央揃え */
+    justify-content: center;  /* 横方向中央揃え */
+    height: 200px;            /* 高さは必要に応じて調整 */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  #text {
+    font-size: 34px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  #next {
+    display: none; /* 最初は隠しておく！ */
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: black;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  
+  
+  

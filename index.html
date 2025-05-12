@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>END OBSERVER</title>
+    <link rel="stylesheet" href="style.css">  <!-- CSSファイルを読み込む -->
+  </head>
+
+  <body>
+    <!-- 背景画像 -->
+    <div id="background-container">
+      <div class="background" id="bg1"></div>
+      <div class="background" id="bg2"></div>
+
+      <!-- キャラクター画像 -->
+      <div class="character" id="char-main">
+        <img src="character/character_main_back.png" alt="主人公">
+      </div>
+      <div class="character" id="char-wife">
+        <img src="character/character_wife_normal.png" alt="嫁">
+      </div>
+      <div class="character" id="char-son">
+        <img src="character/character_son_normal.png" alt="息子">
+      </div>
+
+      <!-- ゲームタイトル -->
+      <h1 id="game-title"></h1>
+
+      <!-- 経過日数 -->
+      <h2 id="days"></h2>
+
+      <div id="setup-button-container">
+        <button class="setup-button" id="save">セーブ</button>
+        <button class="setup-button" id="title-back">タイトルへ</button>
+      </div>
+
+      <!-- ゲーム分岐の選択肢 -->
+      <div id="choices" style="display: none;" class="choices-box">
+        <!-- 選択肢のボタンはJSで作る -->
+      </div>
+
+      <!-- タイトル画面の吹き出し -->
+      <div id="title-box">
+        <!-- タイトル画面の選択肢 -->
+        <div id="title-button-container">
+          <button class="title-button" id="newgame">New Game</button>
+          <button class="title-button" id="continue">Continue Game</button>
+          <button class="title-button" id="reset">Reset Data</button>
+          <button class="title-button" id="hint">Hint</button>
+        </div>
+        <!-- 確認画面のテキスト -->
+        <div id="check-message"></div>
+        <button class="check-button" id="yes">はい</button>
+        <button class="check-button" id="no">いいえ</button>
+      </div>
+
+      <!-- 吹き出し -->
+      <div id="text-box">
+        <div id="name"></div>
+        <div id="text"></div>
+        <button id="next">次へ</button>
+      </div>
+    </div>
+
+    <!-- JavaScriptファイルを読み込む -->
+    <script src="script/scenes_day1.js"></script>
+    <script src="script/scenes_day2.js"></script>
+    <script src="script/scenes_day3.js"></script>
+    <script src="script/scenes_day4.js"></script>
+    <script src="script/scenes_day5.js"></script>
+    <script src="script/scenes_day6_1.js"></script>
+    <script src="script/scenes_day6_2.js"></script>
+    <script src="script/scenes_day6_3.js"></script>
+    <script src="script/scenes_day7.js"></script>
+    <script src="script/script.js"></script>
+  </body>
+</html>

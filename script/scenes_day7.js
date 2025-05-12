@@ -1,0 +1,223 @@
+// 7日目
+const scenesPart7_1 = [
+    {
+        name: '',
+        text: 'そして、',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        dayText: 'day',
+    },
+    {
+        name: '',
+        text: 'そのまま、目を覚ますことはなかった。',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+    },
+    {
+        name: '',
+        text: '',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        background: 'endB1H',
+        end: 'BAD END①<br>「死」',
+    },
+];
+const scenesPart7_2 = [
+    {
+        name: '',
+        text: 'そして、',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        dayText: 'day',
+    },
+    {
+        name: '',
+        text: 'そのまま、目を覚ますことはなかった。',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+    },
+    {
+        name: '',
+        text: 'しかし、その表情はどこか穏やかな様子であった。',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+    },
+    {
+        name: '',
+        text: '',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        background: 'endB1H',
+        end: 'HAPPY END<br>「穏やかな死」',
+    },
+];
+const scenesPart7_3 = [
+    {
+        name: '',
+        text: 'しかし、翌日になっても、<br>お母さんが帰ってくることはなかった。',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        background: 'room',
+        dayText: 'day',
+    },
+    {
+        name: '',
+        text: 'お母さんが家に帰ってくることはなかった。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        background: 'endB3',
+        end: 'BAD END③<br>「帰らぬ人」'
+    },
+];
+const scenesPart7_4 = [
+    {
+        name: '',
+        text: 'あの後、僕は救急車を呼んだ。',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        dayText: 'day',
+    },
+    {
+        name: '',
+        text: 'しかし、目を覚ますことはなく、<br>お母さんは病院で息を引き取った。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+        background: 'hospital'
+    },
+    {
+        name: '',
+        text: '末期の子宮頸がんだったそうだ。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'ゆみこお母さんにも連絡が行き、亡くなる瞬間を一緒に見届けたが、<br>どうしても、現実を受け入れられない様子だった。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '亡くなったお母さんは、ゆみこお母さんを心の底から愛していた。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '普段は冗談ばかり言っていて、僕のこともよく小馬鹿にしくる<br>ふざけた人だったけど、',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'ゆみこお母さんのことには真剣で、<br>お母さんを大切にしろっていつも言ってた。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'そんなお母さんが、最後に僕を信じてくれた。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '任せたって、そう、言ってくれた。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'これからは僕がゆみこお母さんを守るんだ。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '亡くなったお母さんと交わした、たった一つの約束だから。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '俺は母さんを救えなかった。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+        background: 'sakura',
+        dayText: '数年後',
+    },
+    {
+        name: '',
+        text: '病気だった母さんも、<br>宗教にハマってしまった母さんも。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '当時の俺は幼く、無力だった。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'だからこそ、あの時誓った。<br>人を救える人間になると。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '現在ゆみこ母さんはカウンセリングの施設に入っていて、<br>俺は祖父の援助を受けながら学校に通って勉強している。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「俺、将来のこと、自分で決めたよ！」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「母さんみたいな病気の人を助けられる医者になるんだ。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「今はまだ、施設と医学部受験のお金をお祖父さんに頼ってる。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「母さんは昔、苦手そうにしてたけど、話したらすごくいい人だったよ。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「俺、今はまだまだ無力だけど、<br>ちゃんと自立して、必ずゆみこ母さんを迎えに行くよ。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「だからどうか、それまで見守っていてください。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '',
+        wifeFace: 'hidden',
+        sonFace: 'hidden',
+        background: 'endT',
+        end: 'TRUE END<br>「受け継がれた意志」'
+    },
+];
