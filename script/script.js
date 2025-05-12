@@ -287,6 +287,7 @@ function skipPartsCount(nowPart, nextPart) {
 
 // 変更を与えるCSSのID
 const Name = document.getElementById('name');
+const textContainer = document.getElementById('text-container');
 const text = document.getElementById('text');
 const mainDiv = document.getElementById('char-main');
 const wifeDiv = document.getElementById('char-wife');
@@ -366,9 +367,9 @@ document.getElementById('newgame').addEventListener('click', function() {
             displayDays(scenes[currentScene].dayText, () => { // displayDays完了後に呼ばれる
                 displayTextBox(true) // text-boxのフェードイン
                 text.innerHTML = scenes[currentScene].text;
-                text.style.display = 'block';
+                textContainer.style.display = 'flex';
                 setTimeout (() => {
-                    text.style.opacity = '1'; // textのフェードイン
+                    textContainer.style.opacity = '1'; // textのフェードイン
                 }, 10);
                 currentScene++; // scene番号+1で次のシーンを指定
             });
@@ -385,7 +386,7 @@ document.getElementById('continue').addEventListener('click', function() {
         setTimeout(function() { // タイトルのフェードアウト完了待ち3秒
             changeBackground(savedBackgroundUrl); // 背景を切り替える
             // テキスト、名前の透明度をリセット
-            text.style.opacity = '0';
+            textContainer.style.opacity = '0';
             Name.style.opacity = '0';
             setTimeout(function() { // 背景切り替え完了待ち3秒
                 // 日付の自動表示
@@ -394,10 +395,10 @@ document.getElementById('continue').addEventListener('click', function() {
                     changeFace(wifeDiv, savedWifeFaceUrl);
                     changeFace(sonDiv, savedSonFaceUrl);
                     displayTextBox(true) // text-boxのフェードイン
-                    text.style.display = 'block';
+                    textContainer.style.display = 'flex';
                     Name.style.display = 'block';
                     setTimeout (() => {
-                        text.style.opacity = '1';
+                        textContainer.style.opacity = '1';
                         Name.style.opacity = '1';
                     }, 10);
                     currentScene++; // scene番号+1で次のシーンを指定
@@ -449,7 +450,7 @@ next.addEventListener('click', function() {
     });
     // 吹き出しの文字をフェードアウト
     Name.style.opacity = '0';
-    text.style.opacity = '0';
+    textContainer.style.opacity = '0';
 
     if (scene.dayText) { // daysを表示する場合
         dayCount++; // 日付を更新
@@ -463,7 +464,7 @@ next.addEventListener('click', function() {
             displayDays(scene.dayText, () => { // displayDays完了後に呼ばれる
                 displayTextBox(true) // text-boxのフェードイン
                 text.innerHTML = scene.text;
-                text.style.opacity = '1'; // textのフェードイン
+                textContainer.style.opacity = '1'; // textのフェードイン
                 
                 currentScene++; // scene番号+1で次のシーンを指定
 
@@ -550,7 +551,7 @@ next.addEventListener('click', function() {
             text.innerHTML = scene.text.replace('${lastChoiceText}', lastChoiceText); // 選択肢の回答を本文にも表示可能
             setTimeout(function() { // バグ回避のため0.01秒間を開ける
                 Name.style.opacity = '1';
-                text.style.opacity = '1';
+                textContainer.style.opacity = '1';
             }, 10);
 
             // 次のシーン指定の場合わけ
