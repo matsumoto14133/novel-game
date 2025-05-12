@@ -35,7 +35,6 @@ const scenesPart6_2_3 = [
         text: 'そう考え、俺は玄関に向かった。',
         wifeFace: 'stay',
         sonFace: 'stay',
-        bgm: 'main',
     },
     {
         name: '',
@@ -197,7 +196,7 @@ const scenesPart6_2_3 = [
     },
     {
         name: 'あなた',
-        text: '「けど、俺は孤児だし、昔は不良で、性別も女だ。」',
+        text: '「けど、俺は元々孤児だし、当時は不良で、性別も女だ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -227,7 +226,13 @@ const scenesPart6_2_3 = [
     },
     {
         name: 'あなた',
-        text: '「それに、ゆうたはゆみこのそばにいてやってほしいんだ。」<br>「今のゆみこを一人にするのは心配だから。」',
+        text: '「それに、ゆうたはゆみこのそばにいてやってほしいんだ。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'あなた',
+        text: '「今のゆみこを一人にするのは心配だから。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -352,7 +357,13 @@ const scenesPart6_2_3_2 = [
     },
     {
         name: 'ゆうた',
-        text: '「だって、僕にとっては、もう一人の大切なお母さんだから！」',
+        text: '「だって、僕の、」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「もう一人の大切なお母さんだから！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -390,7 +401,7 @@ const scenesPart6_2_3_2 = [
         name: 'ゆうた',
         text: '「うん、2人の息子だから。」',
         wifeFace: 'stay',
-        sonFace: 'stay',
+        sonFace: 'smile',
     },
     {
         name: 'あなた',
@@ -415,7 +426,7 @@ const scenesPart6_2_3_2 = [
         text: '家を出てしばらくして、俺は倒れた。',
         wifeFace: 'stay',
         sonFace: 'hidden',
-        background: 'endB3',
+        background: 'black',
         bgm: 'stop',
     },
     {
@@ -423,6 +434,7 @@ const scenesPart6_2_3_2 = [
         text: '体力の限界だったのだろう。<br>倒れたとき、俺はその場で、死が近いことを悟った。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        background: 'endB3',
     },
     {
         name: '',
@@ -445,13 +457,13 @@ const scenesPart6_2_3_2 = [
     },
     {
         name: '',
-        text: 'ゆみこを助けなきゃいけない。この思いは俺が死んでも受け継がれる。',
+        text: 'ゆみこを助けなきゃいけないという思いは、俺が死んでも受け継がれる。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
     {
         name: '',
-        text: '少々無責任な気もするが、きっとそれすら背負ってくれる。<br>そんな気がした。',
+        text: '少々無責任な気もするが、ゆうたはきっとそれすらも背負ってくれる。<br>そんな気がした。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -469,7 +481,13 @@ const scenesPart6_2_3_2 = [
     },
     {
         name: 'あなた',
-        text: '「ゆうた、ごめんな。あとは任せた。」',
+        text: '「ゆうた、ごめんな。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'あなた',
+        text: '「あとは、任せた」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },

@@ -444,7 +444,7 @@ const scenesPart5_2 = [
     },
     {
         name: 'あなた',
-        text: '「そうだよ、本題に戻ろう！」',
+        text: '「そうだ、本題に戻ろう！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -572,7 +572,7 @@ const scenesPart5_2 = [
     },
     {
         name: '',
-        text: 'これからどんな風に成長していくのか、本当に楽しみだ。',
+        text: 'これからどんな風に成長していくのか、',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -613,6 +613,6 @@ const scenesPart5_2 = [
         sonFace: 'stay',
         background: 'black',
         bgm: 'stop',
-        nextSceneAns: 31,
+        nextSceneAns: 32,
     },
 ];

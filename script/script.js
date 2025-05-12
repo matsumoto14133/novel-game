@@ -183,7 +183,7 @@ function playBGM(url) {
     setTimeout (() => { // フェードアウト待ち
         bgm.src = url;
         bgm.loop = true;
-        bgm.volume = 0.3; // 音量 0.0〜1.0
+        if (!isBgmPlaying) { bgm.volume = 0; } else { bgm.volume = 0.3; }
         bgm.play().catch(err => {
             console.warn('自動再生がブロックされました:', err);
         });
@@ -513,6 +513,11 @@ document.getElementById('continue').addEventListener('click', function() {
                         textContainer.style.opacity = '1';
                         Name.style.opacity = '1';
                     }, 10);
+                    const scene = scenes[currentScene];
+                    if (scene.choices && scene.choices.length > 0) { // 選択肢がある場合
+                        next.style.display = 'none'; // 次へボタンの非表示
+                        showChoices(scene.choices); // 分岐の定義関数適用
+                    }
                 });
             }, 3000);
         }, 2000);
@@ -561,6 +566,8 @@ document.getElementById('save').addEventListener('click', function() {
 document.getElementById('title-back').addEventListener('click', function() {
     const checkMessage = document.getElementById('check-message');
     const titleBox = document.getElementById('title-box');
+    // 選択肢のボタンを非表示（重なり回避）
+    document.getElementById('choices').style.display = 'none';
     // 一旦全てのボタンを無効化
     document.querySelectorAll('button').forEach(btn => {
         btn.disabled = true;
@@ -580,6 +587,8 @@ document.getElementById('title-back').addEventListener('click', function() {
         checkMessage.style.display ='none'; // 確認メッセージを非表示
         titleBox.style.display = 'none'; //タイトルボックスを非表示
         titleBox.style.opacity = '0'; // 透明度リセット
+        // 選択肢のボタンを表示
+        document.getElementById('choices').style.display = 'flex';
         // 確認ボタンを非表示
         document.querySelectorAll('.check-button').forEach(btn => {
             btn.style.display = 'none'; 

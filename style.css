@@ -105,6 +105,7 @@ html, body {
     padding: 0;
     width: auto; 
     line-height: 1;
+    white-space: nowrap;       /* 改行を禁止 */
   }
 
   /* セットアップボタン */

@@ -314,7 +314,7 @@ const scenesPart6_2 = [
     },
     {
         name: '',
-        text: 'こんなことに気づくなんて、<br>ゆうたはきっと謎解きゲームにでもハマってるんだな。',
+        text: 'こんなことに気づくなんて、<br>ゆうたは謎解きゲームにでもハマってるんだろうか。',
         wifeFace: 'stay',
         sonFace: 'stay',
         mainFace: 'stay',

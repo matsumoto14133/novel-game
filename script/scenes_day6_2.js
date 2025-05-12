@@ -691,7 +691,7 @@ const scenesPart6_2_2 = [
     {
         name: '',
         text: '',
-        wifeFace: 'stay',
+        wifeFace: 'hidden',
         sonFace: 'stay',
         background: 'roomF'
         

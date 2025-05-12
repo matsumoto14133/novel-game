@@ -326,7 +326,7 @@ const scenesPart4_2 = [
     },
     {
         name: '',
-        text: 'ダメだ。あまりナーバスになっても仕方ない。<br>今日はもう休もう。',
+        text: 'ダメだ。調子が悪いせいか暗いことばかり考えてしまう。<br>今日はもう休もう。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },

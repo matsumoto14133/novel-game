@@ -56,7 +56,7 @@ const scenesPart7_2 = [
 const scenesPart7_3 = [
     {
         name: '',
-        text: 'しかし、翌日になっても、<br>お母さんが帰ってくることはなかった。',
+        text: 'しかし、翌日になっても、',
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'room',
@@ -88,7 +88,7 @@ const scenesPart7_4 = [
     },
     {
         name: '',
-        text: 'しかし、目を覚ますことはなく、<br>お母さんは病院で息を引き取った。',
+        text: 'しかし、もう目を覚ますことはなく、<br>お母さんは病院で息を引き取った。',
         wifeFace: 'stay',
         sonFace: 'stay',
         background: 'hospital',
