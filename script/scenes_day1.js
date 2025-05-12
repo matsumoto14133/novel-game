@@ -244,7 +244,8 @@ const scenesPart1_2 = [
         text: '「ねえ、ゆみこ、結婚記念に木を植えない？」',
         wifeFace: 'stay',
         sonFace: 'stay',
-        background: 'notree'
+        background: 'notree',
+        bgm: 'past',
     },
     {
         name: 'ゆみこ',
@@ -323,7 +324,8 @@ const scenesPart1_2 = [
         text: '「顔赤いね！大丈夫？」',
         wifeFace: 'normal',
         sonFace: 'stay',
-        background: 'tsubomi'
+        background: 'tsubomi',
+        bgm: 'main',
     },
     {
         name: 'あなた',
@@ -343,5 +345,6 @@ const scenesPart1_2 = [
         wifeFace: 'hidden',
         sonFace: 'stay',
         background: 'black',
+        bgm: 'stop',
     },
 ];

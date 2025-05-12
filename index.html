@@ -29,10 +29,14 @@
       <!-- 経過日数 -->
       <h2 id="days"></h2>
 
+      <!-- セットアップボタン -->
       <div id="setup-button-container">
         <button class="setup-button" id="save">セーブ</button>
         <button class="setup-button" id="title-back">タイトルへ</button>
       </div>
+
+      <!-- BGMのオン/オフ切り替えボタン -->
+      <button id="bgm-toggle" style="cursor: pointer;">🔈</button>
 
       <!-- ゲーム分岐の選択肢 -->
       <div id="choices" style="display: none;" class="choices-box">
@@ -49,9 +53,11 @@
           <button class="title-button" id="hint">Hint</button>
         </div>
         <!-- 確認画面のテキスト -->
-        <div id="check-message"></div>
-        <button class="check-button" id="yes">はい</button>
-        <button class="check-button" id="no">いいえ</button>
+        <div id="check-message">セーブしていないデータは消えますが、<br>本当にタイトルに戻りますか？</div>
+        <div id="check-button-row">
+          <button class="check-button" id="yes">はい</button>
+          <button class="check-button" id="no">いいえ</button>
+        </div>
       </div>
 
       <!-- 吹き出し -->
@@ -63,6 +69,9 @@
         <button id="next">次へ</button>
       </div>
     </div>
+
+    <!-- BGM -->
+    <audio id="bgm"></audio>
 
     <!-- JavaScriptファイルを読み込む -->
     <script src="script/scenes_day1.js"></script>

@@ -6,13 +6,15 @@ const scenesPart2_1 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         dayText: 'day',
+
     },
     {
         name: '',
         text: '目が覚めた。時計を見るともう昼過ぎのようだ。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
-        background: 'room'
+        background: 'room',
+        bgm: 'main',
     },
     {
         name: 'ゆみこ',
@@ -203,7 +205,8 @@ const scenesPart2_2 = [
         text: '「ゆうた、これ何かわかる？」',
         wifeFace: 'stay',
         sonFace: 'stay',
-        background: 'nae'
+        background: 'nae',
+        bgm: 'past',
     },
     {
         name: 'ゆうた',
@@ -360,7 +363,8 @@ const scenesPart2_2 = [
         text: '「なんか嬉しそうだね！」',
         wifeFace: 'normal',
         sonFace: 'hidden',
-        background: 'tsubomi'
+        background: 'tsubomi',
+        bgm: 'main',
     },
     {
         name: 'あなた',
@@ -386,5 +390,6 @@ const scenesPart2_2 = [
         wifeFace: 'hidden',
         sonFace: 'stay',
         background: 'black',
+        bgm: 'stop',
     },
 ];

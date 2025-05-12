@@ -25,7 +25,8 @@ const scenesPart6_1 = [
         text: '目が覚めた。時計を見るともう夕方のようだ。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
-        background: 'room'
+        background: 'room',
+        bgm: 'main',
     },
     {
         name: 'ゆみこ',
@@ -182,6 +183,7 @@ const scenesPart6_1 = [
         text: '俺はそのまま眠りについた。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'stop',
         nextScene: ['6_1', '7_1'],
     },
 ];
@@ -212,7 +214,8 @@ const scenesPart6_2 = [
         text: '目が覚めた。時計を見るともう夕方のようだ。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
-        background: 'room'
+        background: 'room',
+        bgm: 'main',
     },
     {
         name: 'ゆみこ',
@@ -331,12 +334,14 @@ const scenesPart6_2 = [
         mainFace: 'hidden',
         wheel: 'yellow6',
         background: 'kitchen',
+        bgm: 'stop',
     },
     {
         name: '',
         text: '台所ではゆみこが料理をしているようだ。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
+        bgm: 'serious'
     },
     {
         name: '',

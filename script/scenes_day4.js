@@ -25,7 +25,8 @@ const scenesPart4_1 = [
         text: '目が覚めた。時計を見るともう夕方のようだ。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
-        background: 'room'
+        background: 'room',
+        bgm: 'main',
     },
     {
         name: 'ゆみこ',
@@ -235,6 +236,7 @@ const scenesPart4_2 = [
         wifeFace: 'stay',
         sonFace: 'normal',
         background: 'tsubomi',
+        bgm: 'past',
     },
     {
         name: 'あなた',
@@ -320,6 +322,7 @@ const scenesPart4_2 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'tsubomi',
+        bgm: 'main',
     },
     {
         name: '',
@@ -333,5 +336,6 @@ const scenesPart4_2 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'black',
+        bgm: 'stop',
     },
 ];

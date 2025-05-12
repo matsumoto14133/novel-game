@@ -19,6 +19,7 @@ const scenesPart7_1 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'endB1H',
+        bgm: 'ending',
         end: 'BAD END①<br>「死」',
     },
 ];
@@ -48,6 +49,7 @@ const scenesPart7_2 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'endB1H',
+        bgm: 'ending',
         end: 'HAPPY END<br>「穏やかな死」',
     },
 ];
@@ -72,6 +74,7 @@ const scenesPart7_3 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'endB3',
+        bgm: 'ending',
         end: 'BAD END③<br>「帰らぬ人」'
     },
 ];
@@ -88,7 +91,8 @@ const scenesPart7_4 = [
         text: 'しかし、目を覚ますことはなく、<br>お母さんは病院で息を引き取った。',
         wifeFace: 'stay',
         sonFace: 'stay',
-        background: 'hospital'
+        background: 'hospital',
+        bgm: 'ending',
     },
     {
         name: '',
@@ -143,6 +147,7 @@ const scenesPart7_4 = [
         text: '亡くなったお母さんと交わした、たった一つの約束だから。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'stop',
     },
     {
         name: '',
@@ -157,6 +162,7 @@ const scenesPart7_4 = [
         text: '病気だった母さんも、<br>宗教にハマってしまった母さんも。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'ending',
     },
     {
         name: '',
@@ -218,6 +224,7 @@ const scenesPart7_4 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'endT',
+        bgm: 'main',
         end: 'TRUE END<br>「受け継がれた意志」'
     },
 ];

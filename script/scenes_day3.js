@@ -13,7 +13,8 @@ const scenesPart3_1 = [
         text: '目が覚めた。時計を見るともう昼過ぎのようだ。',
         wifeFace: 'hidden',
         sonFace: 'hidden',
-        background: 'room'
+        background: 'room',
+        bgm: 'main',
     },
     {
         name: 'ゆみこ',
@@ -204,7 +205,8 @@ const scenesPart3_2 = [
         text: '「ねえ見てー、さくらが満開になってる」',
         wifeFace: 'smile',
         sonFace: 'stay',
-        background: 'sakura'
+        background: 'sakura',
+        bgm: 'past',
     },
     {
         name: 'ゆうた',
@@ -313,7 +315,8 @@ const scenesPart3_2 = [
         text: '「なんか照れてる？」',
         wifeFace: 'normal',
         sonFace: 'stay',
-        background: 'tsubomi'
+        background: 'tsubomi',
+        bgm: 'main',
     },
     {
         name: 'あなた',
@@ -327,5 +330,6 @@ const scenesPart3_2 = [
         wifeFace: 'hidden',
         sonFace: 'stay',
         background: 'black',
+        bgm: 'stop',
     },
 ];

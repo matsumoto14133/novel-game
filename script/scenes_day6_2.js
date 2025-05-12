@@ -53,7 +53,8 @@ const scenesPart6_2_1 = [
         text: 'そんなことを考えながら、俺は部屋に戻った。',
         wifeFace: 'stay',
         sonFace: 'stay',
-        background: 'room'
+        background: 'room',
+        bgm: 'main',
     },
     {
         name: 'ゆみこ',
@@ -84,6 +85,7 @@ const scenesPart6_2_1 = [
         text: 'すると、ゆみこは泣き出してしまった。',
         wifeFace: 'cry',
         sonFace: 'stay',
+        bgm: 'ending',
     },
     {
         name: 'ゆみこ',
@@ -174,7 +176,8 @@ const scenesPart6_2_1 = [
         text: '「映画面白かったなー」',
         wifeFace: 'hidden',
         sonFace: 'stay',
-        background: 'nae'
+        background: 'nae',
+        bgm: 'past',
     },
     {
         name: 'ゆみこ',
@@ -254,6 +257,7 @@ const scenesPart6_2_1 = [
         wifeFace: 'cry',
         sonFace: 'stay',
         background: 'room',
+        bgm: 'ending',
     },
     {
         name: 'ゆみこ',
@@ -423,6 +427,7 @@ const scenesPart6_2_1 = [
         wifeFace: 'hidden',
         sonFace: 'stay',
         background: 'black',
+        bgm: 'stop',
         nextScene: ['6_2_1', '7_2'],
     },
 ];
@@ -523,6 +528,7 @@ const scenesPart6_2_2 = [
         text: '俺の制止を聞かず、ゆみこは薬をコンロに焚べ、<br>次の瞬間、爆発した。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'stop',
     },
     {
         name: '',
@@ -536,6 +542,7 @@ const scenesPart6_2_2 = [
         wifeFace: 'stay',
         sonFace: 'stay',
         background: 'kitchenF',
+        bgm: 'fire',
     },
     {
         name: '',
@@ -714,6 +721,6 @@ const scenesPart6_2_2 = [
         wifeFace: 'stay',
         sonFace: 'stay',
         background: 'endB2',
-        end: 'BAD END②<br>「火の中へ消えた真相」'
+        end: 'BAD END②<br>「炎の中へ消えた真相」'
     },
 ];

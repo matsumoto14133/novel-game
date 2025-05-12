@@ -35,6 +35,7 @@ const scenesPart6_2_3 = [
         text: 'そう考え、俺は玄関に向かった。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'main',
     },
     {
         name: '',
@@ -186,6 +187,7 @@ const scenesPart6_2_3 = [
         sonFace: 'stay',
         mainFace: 'resolve',
         position: 'main',
+        bgm: 'ending',
     },
     {
         name: 'あなた',
@@ -296,12 +298,14 @@ const scenesPart6_2_3_1 = [
         text: 'しばらく経った。',
         wifeFace: 'stay',
         sonFace: 'hidden',
+        bgm: 'stop',
     },
     {
         name: 'ゆみこ',
         text: '「ゆうた、どうして一人で行かせちゃったの？」<br>「あの人は重い病気なのよ！」',
         wifeFace: 'rushing',
         sonFace: 'stay',
+        bgm: 'serious',
     },
     {
         name: '',
@@ -327,6 +331,7 @@ const scenesPart6_2_3_1 = [
         wifeFace: 'hidden',
         sonFace: 'hidden',
         background: 'black',
+        bgm: 'stop',
         nextScene: ['6_2_3_1', '7_3'],
     },
 ];
@@ -410,7 +415,8 @@ const scenesPart6_2_3_2 = [
         text: '家を出てしばらくして、俺は倒れた。',
         wifeFace: 'stay',
         sonFace: 'hidden',
-        background: 'endB3'
+        background: 'endB3',
+        bgm: 'stop',
     },
     {
         name: '',
@@ -423,6 +429,7 @@ const scenesPart6_2_3_2 = [
         text: 'しかし、不思議と不安はなかった。',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'ending',
     },
     {
         name: '',
@@ -472,6 +479,7 @@ const scenesPart6_2_3_2 = [
         wifeFace: 'stay',
         sonFace: 'stay',
         background: 'black',
+        bgm: 'stop',
         nextScene: ['6_2_3_2', '7_4'],
     },
 ];

@@ -157,7 +157,23 @@ function wheelChair(wheelChairBackgroundUrl, newBackgroundUrl) {
     }, 4310);
 }
 
-// 画像のURLまとめ
+// BGMを再生、停止する関数
+function playBGM(url) {
+    if (url === 'none') { // urlが'none'の場合BGMを止める
+        bgm.pause();
+        bgm.currentTime = 0;
+    } else {
+        const bgm = document.getElementById('bgm');
+        bgm.src = url;
+        bgm.loop = true;
+        bgm.volume = 0.3; // 音量 0.0〜1.0
+        bgm.play().catch(err => {
+            console.warn('自動再生がブロックされました:', err);
+        });
+    }
+}
+
+// 画像、BGMのURLまとめ
 const backgroundImage = {
     room: 'background/background_room.png',
     roomF: 'background/background_room_fire.png',
@@ -188,7 +204,6 @@ const mainImage = {
     resolve: 'character/character_main_resolve.png',
     back: 'character/character_main_back.png',
     memo: 'character/character_main_memo.png', //中央に表示するためここに追加
-    stay: 'stay',
     hidden: 'none',
 }
 const wifeImage = {
@@ -200,7 +215,6 @@ const wifeImage = {
     youngN: 'character/character_wife_young_normal.png',
     youngS: 'character/character_wife_young_smile.png',
     youngC: 'character/character_wife_young_cry.png',
-    stay: 'stay',
     hidden: 'none',
 }
 const sonImage = {
@@ -210,8 +224,15 @@ const sonImage = {
     youngN: 'character/character_son_young_normal.png',
     youngA: 'character/character_son_young_angry.png',
     complain: 'character/character_son_complain.png',
-    stay: 'stay',
     hidden: 'none',
+}
+const bgmArray = {
+    main: 'BGM/BGM_main.mp3',
+    past: 'BGM/BGM_past.mp3',
+    serious: 'BGM/BGM_serious.mp3',
+    fire: 'BGM/BGM_fire.mp3',
+    ending: 'BGM/BGM_main.mp3',
+    stop: 'none',
 }
 
 // 全てのシーンのtext、Name、キャラの表情差分（各パートを展開して結合）→ 中身は別のJS
@@ -248,6 +269,7 @@ let backgroundUrl = backgroundImage.room; // 背景のURL = 最初の背景
 let mainFaceUrl = 'none'; // char-mainのURL
 let wifeFaceUrl = 'none'; // char-wifeのURL
 let sonFaceUrl = 'none'; // char-sonのURL
+let bgmUrl = bgmArray.main // BGMのURL = 最初のBGM 
 
 // 6日目以降の各パートの長さ
 const partLength = [
@@ -301,11 +323,12 @@ function saveGame() {
         // テキスト、名前
         currentText: text.innerText,
         currentName:Name.innerText,
-        // 画像URL
+        // 画像、BGMのURL
         currentBackgroundUrl: backgroundUrl,
         currentMainFaceUrl: mainFaceUrl,
         currentWifeFaceUrl: wifeFaceUrl,
         currentSonFaceUrl: sonFaceUrl,
+        currentBgmUrl: bgmUrl,
         // キャラの表示状態
         mainDivDisplay: mainDiv.style.display,
         wifeDivDisplay: wifeDiv.style.display,
@@ -338,6 +361,7 @@ function loadGame() {
     mainFaceUrl = parsed.currentMainFaceUrl;
     wifeFaceUrl = parsed.currentWifeFaceUrl;
     sonFaceUrl = parsed.currentSonFaceUrl;
+    bgmUrl = parsed.currentBgmUrl;
     if (parsed.mainDivDisplay === 'none') {mainFaceUrl = 'none';}
     if (parsed.wifeDivDisplay === 'none') {wifeFaceUrl = 'none';}
     if (parsed.sonDivDisplay === 'none') {sonFaceUrl = 'none';}
@@ -350,6 +374,23 @@ function loadGame() {
 document.getElementById('bg1').style.backgroundImage = `url('${backgroundImage.tsubomi}')`;
 document.getElementById('game-title').textContent = document.title;
 
+// BGMマークのクリック時
+let isBgmPlaying = true; // 初期状態 = BGMオン
+document.getElementById('bgm-toggle').addEventListener('click', function () {
+    const bgm = document.getElementById('bgm');
+    const toggle = document.getElementById('bgm-toggle');
+
+    if (isBgmPlaying) {
+        bgm.volume = 0; // ボリューム0
+        toggle.innerText = '🔇'; // オフマークに変更
+    } else {
+        bgm.volume = 0.3;
+        toggle.innerText = '🔈'; // オンマークに変更
+    }
+
+    isBgmPlaying = !isBgmPlaying; // 状態を反転
+});
+
 // newgameクリック時：ゲーム画面に切り替える
 document.getElementById('newgame').addEventListener('click', function() {
     // タイトル画面を消す
@@ -359,7 +400,8 @@ document.getElementById('newgame').addEventListener('click', function() {
         setTimeout(function() { // 背景切り替え完了待ち3秒
             // 日付の自動表示
             displayDays(scenes[currentScene].dayText, () => { // displayDays完了後に呼ばれる
-                displayTextBox(true) // text-boxのフェードイン
+                playBGM(bgmUrl); // BGMの再生
+                displayTextBox(true); // text-boxのフェードイン
                 text.innerHTML = scenes[currentScene].text;
                 textContainer.style.display = 'flex';
                 setTimeout (() => {
@@ -375,14 +417,9 @@ document.getElementById('newgame').addEventListener('click', function() {
 document.getElementById('continue').addEventListener('click', function() {
     const loaded = loadGame() // セーブデータをロード＆成功したかどうかを取得
     if (loaded) {
-        console.log(backgroundUrl);
-        console.log(mainFaceUrl);
-        console.log(wifeFaceUrl);
-        console.log(sonFaceUrl);
-
         // タイトル画面を消す
         displayTitlePage(false);
-        setTimeout(function() { // タイトルのフェードアウト完了待ち3秒
+        setTimeout(function() { // タイトルのフェードアウト完了待ち3秒-1秒
             changeBackground(backgroundUrl); // 背景を切り替える
             // テキスト、名前の透明度をリセット
             textContainer.style.opacity = '0';
@@ -390,6 +427,7 @@ document.getElementById('continue').addEventListener('click', function() {
             setTimeout(function() { // 背景切り替え完了待ち3秒
                 // 日付の自動表示
                 displayDays('day', () => { // displayDays完了後に呼ばれる
+                    playBGM(bgmUrl); // BGMの再生
                     changeFace(mainDiv, mainFaceUrl);
                     changeFace(wifeDiv, wifeFaceUrl);
                     changeFace(sonDiv, sonFaceUrl);
@@ -403,7 +441,7 @@ document.getElementById('continue').addEventListener('click', function() {
                     currentScene++; // scene番号+1で次のシーンを指定
                 });
             }, 3000);
-        }, 3000);
+        }, 2000);
     }
 });
 
@@ -413,30 +451,63 @@ document.getElementById('save').addEventListener('click', function() {
 });
 // タイトルへをクリックした場合
 document.getElementById('title-back').addEventListener('click', function() {
-    displayTextBox(false); // テキストボックスを非表示
-    // タイトルボタンを無効化
-    document.querySelectorAll('.title-button').forEach(btn => {
+    const checkMessage = document.getElementById('check-message');
+    const titleBox = document.getElementById('title-box');
+    // 一旦全てのボタンを無効化
+    document.querySelectorAll('button').forEach(btn => {
         btn.disabled = true;
     });
-    // 変数をリセット
-    currentScene = 0;
-    dayCount = 1;
-    lastChoiceText = '';
-    pass = ['', '', '', '', ''];
-    // 背景画像を変更
-    changeBackground(backgroundImage.tsubomi)
-    // キャラを非表示
-    changeFace(mainDiv, 'none');
-    changeFace(wifeDiv, 'none');
-    changeFace(sonDiv, 'none');
-    // タイトル画面を表示
-    displayTitlePage(true);
-    setTimeout (() => { // フェードイン待ち3秒
-        // タイトルボタンを有効化
-        document.querySelectorAll('.title-button').forEach(btn => {
+    // 確認ボタンを表示＆有効化
+    document.querySelectorAll('.check-button').forEach(btn => {
+        btn.style.display = 'block'; 
+        btn.disabled = false;
+    });
+    checkMessage.style.display ='block'; // 確認メッセージを表示
+    titleBox.style.display = 'block';
+    setTimeout(() => {
+        titleBox.style.opacity = '1'; // タイトルボックスをフェードイン
+    }, 10);
+    document.getElementById('no').addEventListener('click', function() {
+        checkMessage.style.display ='none'; // 確認メッセージを非表示
+        titleBox.style.display = 'none'; //タイトルボックスを非表示
+        titleBox.style.opacity = '0'; // 透明度リセット
+        // 確認ボタンを非表示
+        document.querySelectorAll('.check-button').forEach(btn => {
+            btn.style.display = 'none'; 
+        });
+        // 全てのボタンを有効化
+        document.querySelectorAll('button').forEach(btn => {
             btn.disabled = false;
         });
-    }, 3000);
+    });
+    document.getElementById('yes').addEventListener('click', function() {
+        checkMessage.style.display ='none'; // 確認メッセージを非表示
+        // 確認ボタンを非表示
+        document.querySelectorAll('.check-button').forEach(btn => {
+            btn.style.display = 'none'; 
+        });
+        playBGM(bgmArray.stop); // BGMを止める
+        displayTextBox(false); // テキストボックスを非表示
+        // 変数をリセット
+        currentScene = 0;
+        dayCount = 1;
+        lastChoiceText = '';
+        pass = ['', '', '', '', ''];
+        // 背景画像を変更
+        changeBackground(backgroundImage.tsubomi)
+        // キャラを非表示
+        changeFace(mainDiv, 'none');
+        changeFace(wifeDiv, 'none');
+        changeFace(sonDiv, 'none');
+        // タイトル画面を表示
+        displayTitlePage(true);
+        setTimeout (() => { // フェードイン待ち3秒
+            // 全てのボタンを有効化
+            document.querySelectorAll('button').forEach(btn => {
+                btn.disabled = false;
+            });
+        }, 3000);
+    });
 });
 
 // 次へボタンのクリックでゲーム画面を進行
@@ -461,6 +532,12 @@ next.addEventListener('click', function() {
                 changeBackground(backgroundUrl);
             } 
             displayDays(scene.dayText, () => { // displayDays完了後に呼ばれる
+                // BGMのURLを取得 → 変更
+                if (scene.bgm) {
+                    const bgmKey = scene.bgm;
+                    bgmUrl = bgmArray[bgmKey];
+                    playBGM(bgmUrl); // BGMの再生
+                }
                 displayTextBox(true) // text-boxのフェードイン
                 text.innerHTML = scene.text;
                 textContainer.style.opacity = '1'; // textのフェードイン
@@ -503,6 +580,13 @@ next.addEventListener('click', function() {
         } else if (scene.position === 'main') {
             mainDiv.style.width = '70%';
             mainDiv.style.bottom = '-10px';
+        }
+
+        // BGMのURLを取得 → 変更
+        if (scene.bgm) {
+            const bgmKey = scene.bgm;
+            bgmUrl = bgmArray[bgmKey];
+            playBGM(bgmUrl); // BGMの再生
         }
 
         // 背景変更の場合わけ
