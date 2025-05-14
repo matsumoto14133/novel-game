@@ -14,13 +14,13 @@
 
       <!-- キャラクター画像 -->
       <div class="character" id="char-main">
-        <img src="character/character_main_back.png" alt="主人公">
+        <img alt="主人公">
       </div>
       <div class="character" id="char-wife">
-        <img src="character/character_wife_normal.png" alt="嫁">
+        <img alt="嫁">
       </div>
       <div class="character" id="char-son">
-        <img src="character/character_son_normal.png" alt="息子">
+        <img alt="息子">
       </div>
 
       <!-- ゲームタイトル -->
@@ -29,7 +29,7 @@
       <!-- 経過日数 -->
       <h2 id="days"></h2>
 
-      <!-- セットアップボタン -->
+      <!-- セットアップボタン（セーブボタン、タイトルへボタン） -->
       <div id="setup-button-container">
         <button class="setup-button" id="save">セーブ</button>
         <button class="setup-button" id="title-back">タイトルへ</button>
@@ -38,36 +38,37 @@
       <!-- BGMのオン/オフ切り替えボタン -->
       <button id="bgm-toggle" style="cursor: pointer;">🔈</button>
 
-      <!-- ゲーム分岐の選択肢 -->
+      <!-- ゲーム内の選択肢 -->
       <div id="choices" style="display: none;" class="choices-box">
-        <!-- 選択肢のボタンはJSで作る -->
+        <!-- 選択肢のボタンはJSで作るため空 -->
       </div>
 
-      <!-- タイトル画面の吹き出し -->
+      <!-- タイトル画面のフレーム兼、確認画面のフレーム -->
       <div id="title-box">
-        <!-- タイトル画面の選択肢 -->
+        <!-- タイトル画面時のボタン -->
         <div id="title-button-container">
           <button class="title-button" id="newgame">New Game</button>
           <button class="title-button" id="continue">Continue Game</button>
           <button class="title-button" id="reset">Reset Data</button>
           <button class="title-button" id="hint">Hint</button>
         </div>
-        <!-- 確認画面のテキスト -->
+        <!-- 確認画面時のテキスト -->
         <div id="check-message"></div>
+        <!-- 確認画面時のボタン -->
         <div id="check-button-row">
           <button class="check-button" id="yes">はい</button>
           <button class="check-button" id="no">いいえ</button>
         </div>
-        <button id="back">戻る</button> <!-- ヒント表示時 -->
+        <button id="back">戻る</button> <!-- ヒント表示時のボタン -->
       </div>
 
       <!-- 吹き出し -->
       <div id="text-box">
-        <div id="name"></div>
-        <div id="text-container">
+        <div id="name"></div> <!-- 名前 -->
+        <div id="text-container"> <!-- 本文 -->
           <div id="text"></div>
         </div>        
-        <button id="next">次へ</button>
+        <button id="next">次へ</button> <!-- 次へボタン -->
       </div>
     </div>
 

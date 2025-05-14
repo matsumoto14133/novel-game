@@ -327,21 +327,21 @@ html, body {
   }
   
   #endroll-text {
-    display: inline-block;
-    text-align: center;
-    animation: scroll-up 20s linear forwards;
-    font-size: 32px;
+    font-size: 40px;
     line-height: 2;
+    text-align: center;
+    animation: scroll-up 12s linear forwards;  /* スクロールを少し速く */
   }
   
   @keyframes scroll-up {
-    from {
-      transform: translateY(100%);
+    0% {
+      transform: translateY(100%); /* 画面の下から */
     }
-    to {
-      transform: translateY(-100%);
+    100% {
+      transform: translateY(-100%); /* 上まで完全に通過させる */
     }
   }
+  
   
   
   

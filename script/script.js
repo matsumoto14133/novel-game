@@ -1,19 +1,23 @@
+// ======= 関数の定義（見た目、BGM変更系） =======
+    // バグ回避の影響で、フェードイン時間 = フェードアウト時間 + 0.01秒 となる。
 
-// 背景切り替えの定義
+    // 背景画像を切り替える関数（フェード3秒）
 function changeBackground(newImageUrl) {
+    // 初期状態は、bg1で画像を表示、bg2は透明、z座標:bg1<bg2 とする
     const bg1 = document.getElementById('bg1');
     const bg2 = document.getElementById('bg2');
-    // bg2 に画像をセットしてフェードイン
+    // bg2 に新しい画像をセットしてフェードイン
     bg2.style.backgroundImage = `url('${newImageUrl}')`;
     bg2.style.opacity = 1;
-    // 少し待ってから bg1 と bg2 の役割を入れ替える
-    setTimeout(() => { // フェードイン待ち3秒
+    const wait = 3000; // フェードイン待ち3秒
+    setTimeout(() => {
+        // bg1にも画像をセット、bg2 → opacity: 0 で初期状態へ戻す
         bg1.style.backgroundImage = `url('${newImageUrl}')`;
         bg2.style.opacity = 0;
-    }, 3000);
+    }, wait);
 }
 
-// タイトル画面の表示、非表示を切り替える関数
+// タイトル画面の表示、非表示を切り替える関数（フェード3秒、ただしタイトル以外は1秒）
 function displayTitlePage(visible) {
     const ids = ['game-title', 'newgame', 'continue', 'reset', 'hint', 'title-box'];
     ids.forEach(id => {
@@ -22,101 +26,215 @@ function displayTitlePage(visible) {
             el.style.display = 'block';
             setTimeout(() => {
                 el.style.opacity = '1';
-            }, 10);
+            }, 10); // 時間差でバグ回避
         } else if (!visible && el) { // visibleが false の場合→非表示
             el.style.opacity = '0';
-            setTimeout(() => { // フェードアウト待ち3秒
+            const wait = 3000; // フェードアウト待ち3秒
+            setTimeout(() => {
                 el.style.display = 'none';
-            }, 3000);
+            }, wait);
         }
     });
 }
 
-// セットアップボタンの表示、非表示を切り替える関数
+// セットアップボタンの表示、非表示を切り替える関数（フェードなし）
 function displaySetupButton(visible) {
     document.querySelectorAll('.setup-button').forEach(btn => {
-        btn.style.display = visible ? 'block' : 'none'; // visibleが true なら表示、false なら非表示
+        // visibleが true なら表示、false なら非表示
+        btn.style.display = visible ? 'block' : 'none';
     });
 }
 
-// テキストボックスの表示、非表示を切り替える関数
+// テキストボックスの表示、非表示を切り替える関数（フェード1秒）
 function displayTextBox(visible) {
     const textBox = document.getElementById('text-box');
     const next = document.getElementById('next');
     if (visible) { // trueの場合→表示
-        // text-boxのフェードイン
         textBox.style.display = 'block';
         setTimeout(() => {
             textBox.style.opacity = '1';
-        }, 10); 
-        // 次へボタン、セットアップボタンの表示
+        }, 10);  // 時間差でバグ回避
+        // 次へボタン、セットアップボタンの表示（テキストボックスと連動させる）
         next.style.display = 'block';
         displaySetupButton(true);
 
     } else if (!(visible)) { // falseの場合→非表示
-        // 次へボタン、セットアップボタンの非表示
+        // 次へボタン、セットアップボタンの非表示（テキストボックスと連動させる）
         next.style.display = 'none';
         displaySetupButton(false);
-        // text-boxのフェードアウト
         textBox.style.opacity = '0';
-        setTimeout(() => { // フェードアウト待ち1秒
+        const wait = 1000; // フェードアウト待ち1秒
+        setTimeout(() => {
             textBox.style.display = 'none';
-        }, 1000);
+        }, wait);
     }
 }
 
-// 日数を表示→非表示にする関数
-function displayDays(dayText, callback) {
+// 日数を表示し、自動で非表示にする関数（所要時間3.01秒+実行後の操作時間）
+function showDays(dayText, callback) {
+    displayTextBox(false); // テキストボックスを非表示
     const days = document.getElementById('days');
     days.style.display = 'block';
-    if (dayText == 'day') { // 日数を出力する場合'day'を入力
+    if (dayText == 'day') { // 日数を出力する場合
         days.textContent = `〜${dayCount}日目〜`;
-    } else { // 日数以外を表示する場合はこっち
+    } else { // 日数以外を表示する場合
         days.textContent = `〜${dayText}〜`;
     }
+    const wait1 = 2000; // フェードイン待ち1秒+1秒表示
     setTimeout(() => {
         days.style.opacity = '1';
-        setTimeout(function () { // フェードイン待ち1秒+1秒間表示
+        const wait2 = 1000; // フェードアウト待ち1秒
+        setTimeout(() => {
             days.style.opacity = '0';
-            setTimeout(function () { // フェードアウト待ち1秒
+            setTimeout(() => {
                 days.style.display = 'none';
-                if (callback) callback(); // 実行後に呼び出し
-            }, 1000);
-        }, 2000);
+                if (callback) callback(); // 実行後の操作を呼び出す
+            }, wait2);
+        }, wait1);
     }, 10);
 }
 
-// キャラクター画像を切り替える関数の定義
+// キャラクター画像を切り替える関数の定義（フェード0.3秒、char-mainのみ1.5秒）
 function changeFace(charDiv, newUrl) {
     const imgElement = charDiv.querySelector('img'); // imgを取得
     charDiv.style.opacity = '0'; // 現在の画像をフェードアウト
-    // char-mainのみフェードアウト時間が違うためtimeの定義を場合分け
-    if(charDiv === mainDiv) {
-        time = 1500;
-    } else {
-        time = 300;
+    let wait = 300; // フェードアウト待ち3秒
+    if(charDiv === mainDiv) { // char-mainのみ1.5秒
+        wait = 1500;
     }
-    setTimeout(() => { // フェードアウト待ちtime秒
+    setTimeout(() => {
         charDiv.style.display = 'none';
-        if (newUrl === 'none') return; // newUrlが'none'ならフェードアウトのみ
-        imgElement.setAttribute('src', newUrl); // imgのsrcを新しい画像のURLに更新
-        // 新しい画像をフェードイン
+        // newUrlが'none'ならフェードアウトのみで終了
+        if (newUrl === 'none') return;
+
+        // imgのsrcを新しい画像のURLに更新 → フェードイン
+        imgElement.setAttribute('src', newUrl);
         charDiv.style.display = 'block';
         setTimeout(() => {
             charDiv.style.opacity = '1';
-        }, 10);
-    }, time);
+        }, 10); // 時間差でバグ回避
+    }, wait);
 }
 
-// 分岐の定義（選択肢を作成、表示 → 選択した回答を記録＆自動で対応する移動先へ）
+// 車椅子移動演出の定義（所要時間：7.51秒）
+function wheelChair(wheelChairBackgroundUrl, newBackgroundUrl) {
+    // 次へボタン、セットアップボタンの非表示
+    next.style.display = 'none';
+    displaySetupButton(false);
+    // 演出中の背景に変更
+    changeBackground(wheelChairBackgroundUrl);
+    // mainImage.backをフェードイン（下の画像配列参照）
+    changeFace(mainDiv, mainImage.back);
+    const wait1 = 4510; // メインキャラ画像変更待ち0.51秒+3秒表示 
+    setTimeout(() => {
+        changeBackground(newBackgroundUrl); // 新しい背景に変更
+        changeFace(mainDiv, 'none'); // mainImageをフェードアウト
+        const wait2 = 3000; // 背景変更待ち3秒
+        setTimeout(() => {
+            // 次へボタン、セットアップボタンの表示
+            next.style.display = 'block';
+            displaySetupButton(true);
+            next.click(); // 自動で次へボタンをクリック（次のシーンに進める）
+        }, wait2);
+    }, wait1);
+}
+
+// BGMを再生、停止する関数（
+function playBGM(url) {
+    const bgm = document.getElementById('bgm');
+    // 今のBGMをフェードアウト
+    const duration = 1000; // フェードアウト時間
+    const steps = 20; // 何ステップで消すか
+    const interval = duration / steps; // 1ステップごとの時間
+    const volumeStep = bgm.volume / steps; // 1ステップごとに下げる音量
+
+    const fade = setInterval(() => {
+        if (bgm.volume - volumeStep > 0) {
+            bgm.volume -= volumeStep; // volumeStep分、音量ダウンを繰り返す
+        } else {
+            bgm.volume = 0;
+            bgm.pause(); // BGMをオフにする
+            clearInterval(fade); //タイマーもストップ
+        }
+    }, interval);
+    if (url === 'none') return; // urlが'none'の場合 → BGMオフで終了
+    // 新しいBGMを再生
+    setTimeout (() => {
+        bgm.src = url;
+        bgm.loop = true; // 自動でループする
+        if (!isBgmPlaying) { // ミュート状態の場合（下で定義）
+            bgm.volume = 0;
+        } else { // ミュート状態でない場合
+            bgm.volume = 0.3;
+        }
+        bgm.play().catch(err => { // エラーの場合、コンソールに以下を表示
+            console.warn('自動再生がブロックされました:', err);
+        });
+    }, duration); // フェードアウト待ち
+}
+
+// エンドロールを流す関数
+function showEndroll() {
+    // TRUE END到達回数を記録＆上書き保存
+    trueEndingCount++;
+    updateSaveData({ trueEndingCount: trueEndingCount }) // 下で定義
+    // エンドロールを流す
+    document.getElementById('endroll-container').style.display = 'flex';
+    const wait = 12500; // アニメーション時間+余裕
+    setTimeout(() => {
+        document.getElementById('endroll-container').style.display = 'none'; // エンドロールを非表示
+        displaySetupButton(true); // セットアップボタンを表示（タイトルに戻れるようにする）
+    }, wait);
+}
+
+
+// ======= 関数の定義（システム系） =======
+
+// 6日目以降、指定したパート（nextPart）までスキップする関数
+function skipPartsCount(nowPart, nextPart) {
+    // 6日目以降の各パートの長さの配列（級数配列の作成用）
+    const partLength = [
+        scenesPart6_1.length,
+        scenesPart6_2.length,
+        scenesPart6_2_1.length,
+        scenesPart6_2_2.length,
+        scenesPart6_2_3.length,
+        scenesPart6_2_3_1.length,
+        scenesPart6_2_3_2.length,
+        scenesPart7_1.length,
+        scenesPart7_2.length,
+        scenesPart7_3.length,
+        scenesPart7_4.length,
+    ];
+    // 6日目以降の各パートの長さの級数の配列（計算用）
+    let partLengthSum = new Array(11); // サイズを指定
+    partLengthSum[0] = partLength[0]; // 級数の初項を代入
+    // partLengthの値を繰り返し足して級数を定義
+    for (let i = 0; i < partLengthSum.length-1; i++) {
+        partLengthSum[i+1] = partLengthSum[i] + partLength[i+1];
+    } 
+    // nowPart, nextPartの候補（インデックス番号が partLengthSum と対応 → 計算に用いる）
+    const partNumber = [
+        '6_1', '6_2', '6_2_1', '6_2_2', '6_2_3', '6_2_3_1',
+        '6_2_3_2', '7_1', '7_2', '7_3', '7_4',
+    ];
+    // 計算結果を返す
+        // (nowPart から nextPart までの級数 +1) = (6_1から nextPart までの級数) - (6_1からnowPartまでの級数) +1
+        // これにより nextPart の１つ目のインデックスを指定できる
+    return partLengthSum[partNumber.indexOf(nextPart)-1]
+     - partLengthSum[partNumber.indexOf(nowPart)] + 1;
+}
+
+// 選択肢による分岐の定義（選択肢を作成、表示 → 選択した回答を記録＆自動で対応する移動先へ）
 function showChoices(choiceArray) {
     const choicesBox = document.getElementById('choices');
     choicesBox.innerHTML = ''; // 前の選択肢を全てクリア
     choicesBox.style.display = 'flex';
     choiceArray.forEach(choice => { //choicesの各要素に対して
         const btn = document.createElement('button'); // ボタンを作る
-        btn.classList.add('choice'); // chiceクラスに加える
-        btn.textContent = choice.text;
+        btn.classList.add('choice'); // chiceクラスに加える（CSSによるレイアウトの指定）
+        btn.textContent = choice.text; // テキストを指定
+        // 選択肢をクリックした場合
         btn.addEventListener('click', () => {
             lastChoiceText = choice.text; // 選んだ回答を記録
             if (dayCount <= 5) {
@@ -125,9 +243,9 @@ function showChoices(choiceArray) {
             choicesBox.style.display = 'none'; //　ボタンを非表示
             // 移動先の指定
             const nextScene = choice.nextScene
-            if (Array.isArray(choice.nextScene)) { // 6日目以降の分岐の場合、skipPartsCountで移動先を指定
+            if (Array.isArray(nextScene)) { // 6日目以降の分岐の場合、skipPartsCountで移動先を指定
                 currentScene = currentScene + skipPartsCount(nextScene[0], nextScene[1]);
-            } else {
+            } else { // 通常時
                 currentScene = currentScene + choice.nextScene; // (現在の番号+指定数字)の番号に飛ぶ
             }
             // 次へボタンを表示＆有効化
@@ -138,72 +256,89 @@ function showChoices(choiceArray) {
         choicesBox.appendChild(btn); // choiceBoxにボタンを追加（次回クリアするため）
     });
 }
-
-// 車椅子移動演出の定義（専用背景、main画像を4秒表示 → 自動で次の画面に切り替える）
-function wheelChair(wheelChairBackgroundUrl, newBackgroundUrl) {
-    // 次へボタン、セットアップボタンの非表示
-    next.style.display = 'none';
-    displaySetupButton(false);
-    // 専用の背景に変更
-    changeBackground(wheelChairBackgroundUrl);
-    // mainImage.backをフェードイン
-    changeFace(mainDiv, mainImage.back);
-    setTimeout(() => { // キャラ画像変更待ち0.31秒+4秒表示
-        changeBackground(newBackgroundUrl); // 新しい背景に変更
-        changeFace(mainDiv, 'none'); // mainImageをフェードアウト
-        setTimeout(() => { // 背景変更待ち3秒
-            // 次へボタン、セットアップボタンの表示
-            next.style.display = 'block';
-            displaySetupButton(true);
-            next.click(); // 自動で次へボタンをクリック
-        }, 3000);
-    }, 4310);
+  
+// セーブ関数
+function saveGame() {
+    // 保存内容
+    const saveData = {
+        // 重要変数
+        currentScene: currentScene,
+        dayCount: dayCount,
+        lastChoiceText: lastChoiceText,
+        pass: pass,
+        endingCount: endingCount,
+        trueEndingCount: trueEndingCount,
+        // テキスト、名前
+        currentText: text.innerText,
+        currentName:Name.innerText,
+        // 画像、BGMのURL
+        currentBackgroundUrl: backgroundUrl,
+        currentMainFaceUrl: mainFaceUrl,
+        currentWifeFaceUrl: wifeFaceUrl,
+        currentSonFaceUrl: sonFaceUrl,
+        currentBgmUrl: bgmUrl,
+        // キャラ画像の表示状態
+        mainDivDisplay: mainDiv.style.display,
+        wifeDivDisplay: wifeDiv.style.display,
+        sonDivDisplay: sonDiv.style.display,
+    };
+    // ローカルストレージに保存
+    localStorage.setItem('mySaveData', JSON.stringify(saveData));
+    alert('セーブしました！ここまでプレイお疲れ様です！');
 }
 
-// BGMを再生、停止する関数
-function playBGM(url) {
-    const bgm = document.getElementById('bgm');
-    // 今のBGMをフェードアウト
-    const duration = 2000; 
-    const steps = 20;
-    const interval = duration / steps;
-    const volumeStep = bgm.volume / steps;
+// ロード関数
+function loadGame() {
+    const saveData = localStorage.getItem('mySaveData');
+    if (!saveData) { // セーブデータがない場合
+        alert('セーブデータがありません。誠に遺憾です！');
+        return false;
+    }
+    const parsed = JSON.parse(saveData);
+    if (!parsed.currentScene && parsed.currentScene !== 0) { // 
+        alert('セーブデータがありません。誠に遺憾です！');
+        return false;
+    }
+    // 各変数に復元
+    currentScene = parsed.currentScene;
+    dayCount = parsed.dayCount;
+    lastChoiceText = parsed.lastChoiceText;
+    pass = parsed.pass;
+    endingCount = parsed.endingCount;
+    trueEndingCount = parsed.trueEndingCount;
 
-    const fade = setInterval(() => {
-        if (bgm.volume - volumeStep > 0) {
-            bgm.volume -= volumeStep;
-        } else {
-            bgm.volume = 0;
-            bgm.pause();
-            clearInterval(fade);
-        }
-    }, interval);
-    if (url === 'none') {return;} // urlが'none'の場合 → 終了
-    // 新しいBGMを再生
-    setTimeout (() => { // フェードアウト待ち
-        bgm.src = url;
-        bgm.loop = true;
-        if (!isBgmPlaying) { bgm.volume = 0; } else { bgm.volume = 0.3; }
-        bgm.play().catch(err => {
-            console.warn('自動再生がブロックされました:', err);
-        });
-    }, duration);
+    // テキスト、名前を復元
+    text.innerText = parsed.currentText;
+    Name.innerText = parsed.currentName;
+
+    // 背景、キャラ画像の復元
+    backgroundUrl = parsed.currentBackgroundUrl;
+    mainFaceUrl = parsed.currentMainFaceUrl;
+    wifeFaceUrl = parsed.currentWifeFaceUrl;
+    sonFaceUrl = parsed.currentSonFaceUrl;
+    bgmUrl = parsed.currentBgmUrl;
+    if (parsed.mainDivDisplay === 'none') {mainFaceUrl = 'none';}
+    if (parsed.wifeDivDisplay === 'none') {wifeFaceUrl = 'none';}
+    if (parsed.sonDivDisplay === 'none') {sonFaceUrl = 'none';}
+    
+    return true; // ロード完了の判別に用いる
 }
 
-// エンドロールを流す関数
-function showEndroll() {
-    trueEndingCount++;
-    updateSaveData({ trueEndingCount: trueEndingCount }) // TRUE END到達回数を上書き保存 
-    document.getElementById('endroll-container').style.display = 'flex';
-  
-    // 終了後にタイトル画面に戻る
-    setTimeout(() => {
-        document.getElementById('endroll-container').style.display = 'none';
-        displaySetupButton(true);
-        document.getElementById('title-back').click(); // 自動でタイトルに戻る
-    }, 21000); // アニメーション+余裕
-  }
-  
+// 一部の値のみ上書き保存する関数（保存する値をオブジェクトで入力：複数指定可）
+function updateSaveData(updatedValues) {
+    // 現在のセーブデータを取得
+    let saveData = localStorage.getItem('mySaveData');
+    let parsed = saveData ? JSON.parse(saveData) : {}; // 保存データがない場合、空のオブジェクト
+    // 渡された値で上書き
+    for (let key in updatedValues) {
+        parsed[key] = updatedValues[key];
+    }
+    // 再保存
+    localStorage.setItem('mySaveData', JSON.stringify(parsed));
+}
+
+
+// ======= 定数、変数の宣言 =======
 
 // 画像、BGMのURLまとめ
 const backgroundImage = {
@@ -267,7 +402,7 @@ const bgmArray = {
     stop: 'none',
 }
 
-// 全てのシーンのtext、Name、キャラの表情差分（各パートを展開して結合）→ 中身は別のJS
+// 全てのシーンのtext、Name、キャラの表情差分（各パートを展開して結合：中身は別のJS）
 const scenes = [
     ...scenesPart1_1,
     ...scenesPart1_2,
@@ -292,49 +427,19 @@ const scenes = [
     ...scenesPart7_4,
 ];
 
-// 変数の定義
+// 変数の宣言
 let currentScene = 0; // scene番号（これを進めてゲーム進行）
 let dayCount = 1; // 何日目かを数える
-let lastChoiceText = ''; // 選択肢で最後に選んだ回答を記録する
-let pass = ['', '', '', '', '']; // 分岐の判断に用いるパスワード
+let lastChoiceText = ''; // 選択肢で最後に選んだ回答を記録
+let pass = ['', '', '', '', '']; // 6日目の分岐の判断に用いるパスワード
 let endingCount = 0; // エンディングに到達した回数を記録
 let trueEndingCount = 0; // TRUE ENDに到達した回数を記録
 let backgroundUrl = backgroundImage.room; // 背景のURL = 最初の背景
 let mainFaceUrl = 'none'; // char-mainのURL
 let wifeFaceUrl = 'none'; // char-wifeのURL
 let sonFaceUrl = 'none'; // char-sonのURL
-let bgmUrl = bgmArray.main // BGMのURL = 最初のBGM 
-
-// 6日目以降の各パートの長さ
-const partLength = [
-    scenesPart6_1.length,
-    scenesPart6_2.length,
-    scenesPart6_2_1.length,
-    scenesPart6_2_2.length,
-    scenesPart6_2_3.length,
-    scenesPart6_2_3_1.length,
-    scenesPart6_2_3_2.length,
-    scenesPart7_1.length,
-    scenesPart7_2.length,
-    scenesPart7_3.length,
-    scenesPart7_4.length,
-];
-// 6日目以降の各パートの長さの級数
-let partLengthSum = new Array(11); // サイズを指定
-partLengthSum[0] = partLength[0]; // 級数の初項
-for (let i = 0; i < partLengthSum.length-1; i++) { // 級数を定義
-    partLengthSum[i+1] = partLengthSum[i] + partLength[i+1];
-} 
-const partNumber = [ // インデックス番号を各パートの識別番号とする
-    '6_1', '6_2', '6_2_1', '6_2_2', '6_2_3', '6_2_3_1',
-    '6_2_3_2', '7_1', '7_2', '7_3', '7_4',
-];
-// 6日目以降、指定したパートまでスキップする関数（これを用いる）
-function skipPartsCount(nowPart, nextPart) {
-    // nowPart から nextPart までの級数 +1 を返す = 6_1から nextPart までの級数 - 6_1からnowPartまでの級数 +1
-    return partLengthSum[partNumber.indexOf(nextPart)-1]
-     - partLengthSum[partNumber.indexOf(nowPart)] + 1;
-}
+let bgmUrl = bgmArray.main // BGMのURL = 最初のBGM
+let isBgmPlaying = true; // BGMの再生状態（最初はオン）
 
 // 変更を与えるCSSのID
 const Name = document.getElementById('name');
@@ -345,92 +450,17 @@ const wifeDiv = document.getElementById('char-wife');
 const sonDiv = document.getElementById('char-son');
 const next = document.getElementById('next');
 
-// セーブ関数
-function saveGame() {
-    // 保存内容
-    const saveData = {
-        // 重要変数
-        currentScene: currentScene,
-        dayCount: dayCount,
-        lastChoiceText: lastChoiceText,
-        pass: pass,
-        endingCount: endingCount,
-        trueEndingCount: trueEndingCount,
-        // テキスト、名前
-        currentText: text.innerText,
-        currentName:Name.innerText,
-        // 画像、BGMのURL
-        currentBackgroundUrl: backgroundUrl,
-        currentMainFaceUrl: mainFaceUrl,
-        currentWifeFaceUrl: wifeFaceUrl,
-        currentSonFaceUrl: sonFaceUrl,
-        currentBgmUrl: bgmUrl,
-        // キャラの表示状態
-        mainDivDisplay: mainDiv.style.display,
-        wifeDivDisplay: wifeDiv.style.display,
-        sonDivDisplay: sonDiv.style.display,
-    };
-    // ローカルストレージに保存
-    localStorage.setItem('mySaveData', JSON.stringify(saveData));
-    alert('セーブしました！ここまでプレイお疲れ様です！');
-}
-// ロード関数
-function loadGame() {
-    const saveData = localStorage.getItem('mySaveData');
-    if (!saveData) {
-        alert('セーブデータがありません。誠に遺憾です！');
-        return false;
-    }
-    const parsed = JSON.parse(saveData);
-    // 各変数に復元
-    currentScene = parsed.currentScene;
-    dayCount = parsed.dayCount;
-    lastChoiceText = parsed.lastChoiceText;
-    pass = parsed.pass;
-    endingCount = parsed.endingCount;
-    trueEndingCount = parsed.trueEndingCount;
 
-    // テキスト、名前を復元
-    text.innerText = parsed.currentText;
-    Name.innerText = parsed.currentName;
+// ======= タイトル画面操作時の実行内容 =======
 
-    // 背景、キャラ画像の復元
-    backgroundUrl = parsed.currentBackgroundUrl;
-    mainFaceUrl = parsed.currentMainFaceUrl;
-    wifeFaceUrl = parsed.currentWifeFaceUrl;
-    sonFaceUrl = parsed.currentSonFaceUrl;
-    bgmUrl = parsed.currentBgmUrl;
-    if (parsed.mainDivDisplay === 'none') {mainFaceUrl = 'none';}
-    if (parsed.wifeDivDisplay === 'none') {wifeFaceUrl = 'none';}
-    if (parsed.sonDivDisplay === 'none') {sonFaceUrl = 'none';}
-    
-    return true;
-}
-// 一部の値み上書き保存する関数
-function updateSaveData(updatedValues) {
-    // 現在のセーブデータを取得
-    let saveData = localStorage.getItem('mySaveData');
-    let parsed = saveData ? JSON.parse(saveData) : {};
-  
-    // 渡された値で上書き
-    for (let key in updatedValues) {
-        parsed[key] = updatedValues[key];
-    }
-  
-    // 再保存
-    localStorage.setItem('mySaveData', JSON.stringify(parsed));
-  }
-  
-
-
-// 以下、実行内容
 // 起動時：特定変数の読み込み、タイトル画面での背景、タイトルの表示
 window.addEventListener('DOMContentLoaded', () => {
     const saveData = localStorage.getItem('mySaveData');
     if (saveData) {
         const parsed = JSON.parse(saveData);
-        
-        // 一部の値だけ読み込む（endingCount、trueEndingCount）
+        // 一部のセーブデータだけ読み込む
+            // endingCount：ヒントの表示に影響
+            // trueEndingCount：背景変更に影響
         if (parsed.endingCount) {
             endingCount = parsed.endingCount;
         }
@@ -440,18 +470,17 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     // 起動時の背景の表示
     const bg1 = document.getElementById('bg1');
-    if (trueEndingCount > 0) {
+    if (trueEndingCount > 0) { // TRUE END回収後
         bg1.style.backgroundImage = `url('${backgroundImage.sakura}')`;
-    } else {
+    } else { // 通常時
         bg1.style.backgroundImage = `url('${backgroundImage.tsubomi}')`;
     }
     // ゲームタイトルの表示
     document.getElementById('game-title').textContent = document.title;
 });
 
-// BGMマークのクリック時
-let isBgmPlaying = true; // 初期状態 = BGMオン
-document.getElementById('bgm-toggle').addEventListener('click', function () {
+// BGMマークのクリック時：ミュートのオン/オフ切り替え
+document.getElementById('bgm-toggle').addEventListener('click', () => {
     const bgm = document.getElementById('bgm');
     const toggle = document.getElementById('bgm-toggle');
 
@@ -459,50 +488,51 @@ document.getElementById('bgm-toggle').addEventListener('click', function () {
         bgm.volume = 0; // ボリューム0
         toggle.innerText = '🔇'; // オフマークに変更
     } else {
-        bgm.volume = 0.3;
+        bgm.volume = 0.3; // 通常のボリューム
         toggle.innerText = '🔈'; // オンマークに変更
     }
-
     isBgmPlaying = !isBgmPlaying; // 状態を反転
 });
 
 // newgameクリック時：ゲーム画面に切り替える
-document.getElementById('newgame').addEventListener('click', function() {
-    // タイトル画面を消す
-    displayTitlePage(false);
-    setTimeout(function() { // タイトルのフェードアウト完了待ち3秒
-        changeBackground(backgroundUrl); // 背景を切り替える
-        setTimeout(function() { // 背景切り替え完了待ち3秒
+document.getElementById('newgame').addEventListener('click', () => {
+    displayTitlePage(false); // タイトル画面を消す
+    const wait = 3000; // タイトルのフェードアウト待ち3秒＆背景切り替え待ち3秒
+    setTimeout(() => {
+        changeBackground(backgroundUrl); // 背景を切り替える（初期値）
+        setTimeout(() => {
             // 日付の自動表示
-            displayDays(scenes[currentScene].dayText, () => { // displayDays完了後に呼ばれる
+            showDays(scenes[currentScene].dayText, () => { // showDays完了後に呼ばれる：所要時間3.01秒
                 playBGM(bgmUrl); // BGMの再生
                 displayTextBox(true); // text-boxのフェードイン
-                text.innerHTML = scenes[currentScene].text;
+                text.innerHTML = scenes[currentScene].text; // 最初のシーンのテキストを指定
                 textContainer.style.display = 'flex';
                 setTimeout (() => {
                     textContainer.style.opacity = '1'; // textのフェードイン
-                }, 10);
+                }, 10); // 時間差でバグ回避
                 currentScene++; // scene番号+1で次のシーンを指定
             });
-        }, 3000);
-    }, 3000);
+        }, wait);
+    }, wait);
 });
 
 // continueクリック時：セーブしたゲーム画面に切り替える
-document.getElementById('continue').addEventListener('click', function() {
+document.getElementById('continue').addEventListener('click', () => {
     const loaded = loadGame() // セーブデータをロード＆成功したかどうかを取得
-    if (loaded) {
-        // タイトル画面を消す
-        displayTitlePage(false);
-        setTimeout(function() { // タイトルのフェードアウト完了待ち3秒-1秒
+    if (loaded) { // ロードできた場合
+        displayTitlePage(false); // タイトル画面を消す
+        const wait1 = 2000; // タイトルのフェードアウト完了待ち3秒-調整1秒
+        setTimeout(() => {
             changeBackground(backgroundUrl); // 背景を切り替える
             // テキスト、名前の透明度をリセット
             textContainer.style.opacity = '0';
             Name.style.opacity = '0';
-            setTimeout(function() { // 背景切り替え完了待ち3秒
+            const wait2 = 3000; // 背景の切り替え待ち3秒
+            setTimeout(() => {
                 // 日付の自動表示
-                displayDays('day', () => { // displayDays完了後に呼ばれる
+                showDays('day', () => { // showDays完了後に呼ばれる：所要時間3.01秒
                     playBGM(bgmUrl); // BGMの再生
+                    // キャラ画像の切り替え
                     changeFace(mainDiv, mainFaceUrl);
                     changeFace(wifeDiv, wifeFaceUrl);
                     changeFace(sonDiv, sonFaceUrl);
@@ -510,85 +540,100 @@ document.getElementById('continue').addEventListener('click', function() {
                     textContainer.style.display = 'flex';
                     Name.style.display = 'block';
                     setTimeout (() => {
-                        textContainer.style.opacity = '1';
-                        Name.style.opacity = '1';
+                        textContainer.style.opacity = '1'; // textのフェードイン
+                        Name.style.opacity = '1'; // 名前のフェードイン
                     }, 10);
                     const scene = scenes[currentScene];
-                    if (scene.choices && scene.choices.length > 0) { // 選択肢がある場合
+                    // セーブしたシーンに選択肢がある場合の処理
+                    if (scene.choices && scene.choices.length > 0) {
                         next.style.display = 'none'; // 次へボタンの非表示
                         showChoices(scene.choices); // 分岐の定義関数適用
                     }
                 });
-            }, 3000);
-        }, 2000);
+            }, wait2);
+        }, wait1);
     }
 });
 
-// resetクリック時：セーブデータを削除
-document.getElementById('reset').addEventListener('click', function () {
-    if (confirm('本当にセーブデータを削除しますか？\nクリア回数もリセットされます。')) {
-        localStorage.removeItem('mySaveData');
-        endingCount = 0; // エンディングに到達した回数をリセット
-        trueEndingCount = 0; // TRUE ENDに到達した回数をリセット
-        changeBackground(backgroundImage.tsubomi);
+// resetクリック時：confirmで確認z → okならセーブデータを削除（endingCount, trueEndingCountもリセット）
+document.getElementById('reset').addEventListener('click', () => {
+    if (confirm('クリア回数もリセットされます。\n本当にセーブデータを削除しますか？')) {
+        localStorage.removeItem('mySaveData'); // セーブデータを削除
+        endingCount = 0; // エンディング到達回数をリセット
+        trueEndingCount = 0; // TRUE END到達回数をリセット
+        changeBackground(backgroundImage.tsubomi); // 通常時のタイトル画面背景に戻す
         alert('セーブデータを削除しました😭');
     }
 });
 
-// ヒントをクリックした場合
-document.getElementById('hint').addEventListener('click', function() {
+// hintをクリックした場合：ヒントを表示
+document.getElementById('hint').addEventListener('click', () => {
     const hintMessage = document.getElementById('check-message');
+    // タイトルボタンを非表示
     document.querySelectorAll('.title-button').forEach(btn => {
         btn.style.display = 'none';
     });
-    if (endingCount > 0) {
+    // ヒントの表示
+    if (endingCount > 0) { // エンディング到達前
         hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：選択肢の「頭文字」';
-    } else {
+    } else { // エンディング到達後
         hintMessage.innerHTML = 'ヒント①：エンディングは全部で5つ<br><br>ヒント②：こっちは一周クリア後に解放';
     }
-    hintMessage.style.display ='block'; // ヒントを表示
+    hintMessage.style.display ='block';
     const back = document.getElementById('back')
     back.style.display = 'block'; // 戻るボタン表示
-    back.addEventListener('click', function() {
+    // 戻るボタンをクリックした場合：タイトル画面に戻る
+    back.addEventListener('click', () => {
         hintMessage.style.display ='none'; // ヒントを非表示
         back.style.display = 'none'; // 戻るボタンを非表示
+        // タイトルボタンを表示
         document.querySelectorAll('.title-button').forEach(btn => {
             btn.style.display = 'block';
         });
     });
 });
 
-// セーブボタンをクリックした場合
-document.getElementById('save').addEventListener('click', function() {
-    saveGame() 
+
+// ======= セットアップボタン操作時の実行内容 =======
+
+// セーブをクリックした場合：confirmで確認 → okならセーブ
+document.getElementById('save').addEventListener('click', () => {
+    if (confirm('前のセーブデータに上書きされます。\n本当にセーブしますか？')) {
+        saveGame() // セーブする
+    }
 });
-// タイトルへをクリックした場合
-document.getElementById('title-back').addEventListener('click', function() {
-    const checkMessage = document.getElementById('check-message');
+
+// タイトルへをクリックした場合：確認画面を表示 → yesでタイトル画面に戻る / noで確認画面を閉じる
+document.getElementById('title-back').addEventListener('click', () => {
     const titleBox = document.getElementById('title-box');
+    const checkMessage = document.getElementById('check-message');
     // 選択肢のボタンを非表示（重なり回避）
     document.getElementById('choices').style.display = 'none';
     // 一旦全てのボタンを無効化
     document.querySelectorAll('button').forEach(btn => {
         btn.disabled = true;
     });
-    // 確認ボタンを表示＆有効化
+    // 確認ボタン（yes/no）を表示＆有効化
     document.querySelectorAll('.check-button').forEach(btn => {
         btn.style.display = 'block'; 
         btn.disabled = false;
     });
+    titleBox.style.display = 'block';
     checkMessage.innerHTML = 'セーブしていないデータは消えますが、<br>本当にタイトルに戻りますか？';
     checkMessage.style.display ='block'; // 確認メッセージを表示
-    titleBox.style.display = 'block';
     setTimeout(() => {
         titleBox.style.opacity = '1'; // タイトルボックスをフェードイン
-    }, 10);
-    document.getElementById('no').addEventListener('click', function() {
+    }, 10); // 時間差でバグ回避
+
+    // no をクリックした場合：確認画面を閉じる
+    document.getElementById('no').addEventListener('click', () => {
         checkMessage.style.display ='none'; // 確認メッセージを非表示
         titleBox.style.display = 'none'; //タイトルボックスを非表示
         titleBox.style.opacity = '0'; // 透明度リセット
-        // 選択肢のボタンを表示
-        document.getElementById('choices').style.display = 'flex';
+        // 選択肢がある場合 → 選択肢のボタンを表示
+        if (scenes[currentScene].choices) {
+            document.getElementById('choices').style.display = 'flex';
+        }
         // 確認ボタンを非表示
         document.querySelectorAll('.check-button').forEach(btn => {
             btn.style.display = 'none'; 
@@ -598,7 +643,8 @@ document.getElementById('title-back').addEventListener('click', function() {
             btn.disabled = false;
         });
     });
-    document.getElementById('yes').addEventListener('click', function() {
+    // yes をクリックした場合：タイトル画面に戻る＆変数リセット
+    document.getElementById('yes').addEventListener('click', () => {
         checkMessage.style.display ='none'; // 確認メッセージを非表示
         // 確認ボタンを非表示
         document.querySelectorAll('.check-button').forEach(btn => {
@@ -607,20 +653,20 @@ document.getElementById('title-back').addEventListener('click', function() {
         playBGM(bgmArray.stop); // BGMを止める
         displayTextBox(false); // テキストボックスを非表示
         document.getElementById('days').style.display = 'none'; // エンディングメッセージを非表示
-        // endingCount, trueEndingCountを除く変数をリセット
+        // endingCount, trueEndingCountを除く変数を初期値に戻す
         currentScene = 0;
         dayCount = 1;
         lastChoiceText = '';
         pass = ['', '', '', '', ''];
-        let backgroundUrl = backgroundImage.room;
-        let mainFaceUrl = 'none';
-        let wifeFaceUrl = 'none';
-        let sonFaceUrl = 'none';
-        let bgmUrl = bgmArray.main
+        backgroundUrl = backgroundImage.room;
+        mainFaceUrl = 'none';
+        wifeFaceUrl = 'none';
+        sonFaceUrl = 'none';
+        bgmUrl = bgmArray.main
         // 背景画像を変更
-        if (trueEndingCount > 0) {
+        if (trueEndingCount > 0) { // TRUE END到達済みの場合
             changeBackground(backgroundImage.sakura);
-        } else {
+        } else { // 通常時
             changeBackground(backgroundImage.tsubomi);
         }
         // キャラを非表示
@@ -629,19 +675,23 @@ document.getElementById('title-back').addEventListener('click', function() {
         changeFace(sonDiv, 'none');
         // タイトル画面を表示
         displayTitlePage(true);
-        setTimeout (() => { // フェードイン待ち3秒
+        const wait = 3000; // フェードイン待ち3秒
+        setTimeout (() => {
             // 全てのボタンを有効化
             document.querySelectorAll('button').forEach(btn => {
                 btn.disabled = false;
             });
-        }, 3000);
+        }, wait);
     });
 });
 
+
+// ======= ゲーム画面進行時の実行内容 =======
+
 // 次へボタンのクリックでゲーム画面を進行
-next.addEventListener('click', function() {
+next.addEventListener('click', () => {
     const scene = scenes[currentScene];
-    next.disabled = true; // 次へボタン無効化（バグ対策）
+    next.disabled = true; // 次へボタン無効化（連打対策）
     // セットアップボタンを無効化（バグ対策）
     document.querySelectorAll('.setup-button').forEach(btn => {
         btn.disabled = true;
@@ -650,16 +700,18 @@ next.addEventListener('click', function() {
     Name.style.opacity = '0';
     textContainer.style.opacity = '0';
 
-    if (scene.dayText) { // daysを表示する場合
+    if (scene.dayText) { // daysを表示する場合（待機時間が異なるため場合わけ）
         dayCount++; // 日付を更新
-        setTimeout(() => { // days表示前に1.5秒間を開ける。
+        const wait = 1000; // days表示前に1秒間を開ける。
+        setTimeout(() => {
             const backgroundKey = scene.background;
             backgroundUrl = backgroundImage[backgroundKey];
             if (scene.dayText != 'day') {
-                // 日付表示でない場合、先に背景を変更
+                // showDaysが日付表示でない場合（ = テキスト表示の場合）→ 先に背景を変更
                 changeBackground(backgroundUrl);
+                playBGM(scene.bgm); // bgmをストップ
             } 
-            displayDays(scene.dayText, () => { // displayDays完了後に呼ばれる
+            showDays(scene.dayText, () => { // showDays完了後に呼ばれる：所要時間3.01秒
                 // BGMのURLを取得 → 変更
                 if (scene.bgm) {
                     const bgmKey = scene.bgm;
@@ -667,7 +719,7 @@ next.addEventListener('click', function() {
                     playBGM(bgmUrl); // BGMの再生
                 }
                 displayTextBox(true) // text-boxのフェードイン
-                text.innerHTML = scene.text;
+                text.innerHTML = scene.text; // テキストの指定
                 textContainer.style.opacity = '1'; // textのフェードイン
                 
                 currentScene++; // scene番号+1で次のシーンを指定
@@ -677,15 +729,14 @@ next.addEventListener('click', function() {
                 document.querySelectorAll('.setup-button').forEach(btn => {
                     btn.disabled = false;
                 });
-
-                // 日付表示の場合の背景の変更
+                // showDaysが日付表示の場合（ = テキスト表示でない場合）→ 最後に背景を変更
                 if (scene.dayText == 'day' && scene.background) {
                     changeBackground(backgroundUrl);
                 }
             });
-        }, 1500);
+        }, wait);
     } else { // daysを表示しない場合
-        // キャラクター画像のURLを取得 → 変更
+        // キャラ画像のURLを取得 → 変更
         const mainFaceKey = scene.mainFace;
         const wifeFaceKey = scene.wifeFace;
         const sonFaceKey = scene.sonFace;
@@ -701,7 +752,7 @@ next.addEventListener('click', function() {
             sonFaceUrl = sonImage[sonFaceKey];
             changeFace(sonDiv, sonFaceUrl);
         }
-        // 画像位置の修正（scenesで指定があった場合のみ）
+        // キャラ画像の位置、サイズ修正（scenesで指定があった場合のみ）
         if (scene.position === 'son') {
             sonDiv.style.right = 'none';
             sonDiv.style.left = '-198px';
@@ -721,9 +772,9 @@ next.addEventListener('click', function() {
         if (scene.end) { // エンディングの場合
             endingCount++; // エンディング到達回数を記録
             updateSaveData({ endingCount: endingCount }) // エンディング到達回数を上書き保存 
-            console.log(endingCount);
-            displayTextBox(false);
-            setTimeout(function(){
+            displayTextBox(false); // テキストボックスを非表示
+            const wait1 = 2000; // フェードアウト待ち1秒 + それっぽい間
+            setTimeout(() =>{
                 // 背景の変更
                 const backgroundKey = scene.background;
                 backgroundUrl = backgroundImage[backgroundKey];
@@ -732,46 +783,53 @@ next.addEventListener('click', function() {
                 const endMessage = document.getElementById('days')
                 endMessage.style.opacity = '0';
                 endMessage.style.transition = 'opacity 2.5s ease';
-                setTimeout(function() {
+                setTimeout(() => {
                     // エンディングメッセージの表示
                     endMessage.style.display = 'block';
-                    endMessage.innerHTML = scene.end;
-                    setTimeout(function() {
+                    endMessage.innerHTML = scene.end; // メッセージを指定
+                    setTimeout(() => {
                         endMessage.style.opacity = '1';
                         if (scene.background === 'endT') { // TRUE ENDの場合 → エンドロールを表示
-                            setTimeout (() => { // 3秒表示
+                            const wait2 = 5000; // 5秒後エンドロールを表示
+                            setTimeout (() => {
                                 showEndroll()
-                            }, 3000);
+                            }, wait2);
                         } else { // 通常時 → セットアップボタンの表示
                             displaySetupButton(true);
                         }
-                    }, 10);
-                }, 2000);
-            }, 2000);
+                    }, 10); // 時間差でバグ回避
+                }, wait1);
+            }, wait1);
         } else if (scene.background) {  // 通常時の背景の変更
             const backgroundKey = scene.background;
             backgroundUrl = backgroundImage[backgroundKey];
             // 車椅子演出の有無
             if (scene.wheel) { // 演出あり
                 wheelChair(backgroundImage[scene.wheel], backgroundUrl);
-            } else { //演出なし = 通常の背景変更のみ
-                next.style.display = 'none'; // 次へボタンの非表示
+            } else { //演出なし（通常の背景変更のみ）
+                // 次へボタン、セットアップボタンの非表示
+                next.style.display = 'none';
                 displaySetupButton(false);
-                changeBackground(backgroundUrl);
-                setTimeout(function() { //背景変更待ち3秒
-                    next.style.display = 'block'; // 次へボタンの表示
+                changeBackground(backgroundUrl); // 背景を変更
+                const wait = 3000; //背景変更待ち3秒
+                setTimeout(() => {
+                    // 次へボタン、セットアップボタンの表示
+                    next.style.display = 'block';
                     displaySetupButton(true);
-                }, 3000);
+                }, wait);
             }
         }
+
         // 吹き出し内の表示（名前、テキスト、選択肢）
-        setTimeout(function() { // 文字のフェードアウト待ち0.5秒+0.01秒
+        const wait = 500; // 文字のフェードアウト待ち0.5秒
+        setTimeout(() => {
             Name.innerHTML = scene.name;
-            text.innerHTML = scene.text.replace('${lastChoiceText}', lastChoiceText); // 選択肢の回答を本文にも表示可能
-            setTimeout(function() { // バグ回避のため0.01秒間を開ける
+            text.innerHTML = scene.text.replace('${lastChoiceText}', lastChoiceText); // 選択肢の回答をテキストにも表示可能
+            setTimeout(() => {
+                // テキスト、名前をフェードイン
                 Name.style.opacity = '1';
                 textContainer.style.opacity = '1';
-            }, 10);
+            }, 10); // 時間差でバグ回避
 
             // 次のシーン指定の場合わけ
             if (scene.choices && scene.choices.length > 0) { // 選択肢がある場合
@@ -790,11 +848,13 @@ next.addEventListener('click', function() {
             } else { // 通常時はscene番号+1で次のシーンを指定
                 currentScene++;
             }
-            // 次へボタン、セットアップボタンの有効化
-            next.disabled = false;
-            document.querySelectorAll('.setup-button').forEach(btn => {
-                btn.disabled = false;
-            });
-        }, 510);
+            setTimeout(() => {
+                // 次へボタン、セットアップボタンの有効化
+                next.disabled = false;
+                document.querySelectorAll('.setup-button').forEach(btn => {
+                    btn.disabled = false;
+                });
+            }, wait); // フェードイン待ち
+        }, wait); // フェードアウト待ち
     }
 });

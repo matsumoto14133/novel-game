@@ -357,7 +357,7 @@ const scenesPart6_2_3_2 = [
     },
     {
         name: 'ゆうた',
-        text: '「だって、僕の、」',
+        text: '「だって、僕の」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -369,7 +369,7 @@ const scenesPart6_2_3_2 = [
     },
     {
         name: 'あなた',
-        text: '「ゆうた」',
+        text: '「ゆうた、」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -423,11 +423,17 @@ const scenesPart6_2_3_2 = [
     },
     {
         name: '',
-        text: '家を出てしばらくして、俺は倒れた。',
+        text: '家を出てしばらくして、',
         wifeFace: 'stay',
         sonFace: 'hidden',
         background: 'black',
         bgm: 'stop',
+    },
+    {
+        name: '',
+        text: '俺は倒れた。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
     },
     {
         name: '',

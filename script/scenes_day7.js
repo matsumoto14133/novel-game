@@ -88,7 +88,7 @@ const scenesPart7_4 = [
     },
     {
         name: '',
-        text: 'しかし、もう目を覚ますことはなく、<br>お母さんは病院で息を引き取った。',
+        text: 'しかし、お母さんが目を覚ますことはなく、<br>そのまま病院で息を引き取った。',
         wifeFace: 'stay',
         sonFace: 'stay',
         background: 'hospital',
@@ -102,7 +102,13 @@ const scenesPart7_4 = [
     },
     {
         name: '',
-        text: 'ゆみこお母さんにも連絡が行き、亡くなる瞬間を一緒に見届けたが、<br>どうしても、現実を受け入れられない様子だった。',
+        text: 'ゆみこお母さんにも連絡が行き、亡くなる瞬間を一緒に見届けたが、',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: 'どうしても、現実を受け入れられない様子だった。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -147,7 +153,6 @@ const scenesPart7_4 = [
         text: '亡くなったお母さんと交わした、たった一つの約束だから。',
         wifeFace: 'stay',
         sonFace: 'stay',
-        bgm: 'stop',
     },
     {
         name: '',
@@ -156,6 +161,7 @@ const scenesPart7_4 = [
         sonFace: 'stay',
         background: 'sakura',
         dayText: '数年後',
+        bgm: 'stop',
     },
     {
         name: '',
@@ -178,7 +184,13 @@ const scenesPart7_4 = [
     },
     {
         name: '',
-        text: '現在ゆみこ母さんはカウンセリングの施設に入っていて、<br>俺は祖父の援助を受けながら学校に通って勉強している。',
+        text: 'あの後、ゆみこ母さんは施設に入ってカウンセリングをうけ、<br>最近は少しずつだが元気を取り戻してきている。',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: '',
+        text: '俺は現在、祖父の援助を受けながら進学校に通い、勉強に励んでいる。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -190,7 +202,7 @@ const scenesPart7_4 = [
     },
     {
         name: 'ゆうた',
-        text: '「母さんみたいな病気の人を助けられる医者になるんだ。」',
+        text: '「母さんみたいな病気の人を助けられる、医者になるんだ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
