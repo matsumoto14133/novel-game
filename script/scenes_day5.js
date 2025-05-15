@@ -108,7 +108,7 @@ const scenesPart5_1 = [
         choices: [  // 選択肢
             { text: 'メロン', nextScene: 1 },
             { text: 'すいか', nextScene: 1 },
-            { text: 'パイナップル', nextScene: 1 },
+            { text: 'いちご', nextScene: 1 },
         ],
     },
     {

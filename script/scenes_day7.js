@@ -59,7 +59,7 @@ const scenesPart7_3 = [
         text: 'しかし、翌日になっても、',
         wifeFace: 'hidden',
         sonFace: 'hidden',
-        background: 'room',
+        background: 'entranceN',
         dayText: 'day',
     },
     {
@@ -161,14 +161,13 @@ const scenesPart7_4 = [
         sonFace: 'stay',
         background: 'sakura',
         dayText: '数年後',
-        bgm: 'stop',
+        bgm: 'ending',
     },
     {
         name: '',
         text: '病気だった母さんも、<br>宗教にハマってしまった母さんも。',
         wifeFace: 'stay',
         sonFace: 'stay',
-        bgm: 'ending',
     },
     {
         name: '',
@@ -199,6 +198,7 @@ const scenesPart7_4 = [
         text: '「俺、将来のこと、自分で決めたよ！」',
         wifeFace: 'stay',
         sonFace: 'stay',
+        bgm: 'main',
     },
     {
         name: 'ゆうた',
@@ -220,13 +220,19 @@ const scenesPart7_4 = [
     },
     {
         name: 'ゆうた',
-        text: '「俺、今はまだまだ無力だけど、<br>ちゃんと自立して、必ずゆみこ母さんを迎えに行くよ。」',
+        text: '「俺、まだまだ無力で自分一人じゃ守れないままだけど、<br>将来ちゃんと自立して、必ずゆみこ母さんを迎えに行くよ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
     {
         name: 'ゆうた',
         text: '「だからどうか、それまで見守っていてください。」',
+        wifeFace: 'stay',
+        sonFace: 'stay',
+    },
+    {
+        name: 'ゆうた',
+        text: '「約束だよ！母さん！」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },

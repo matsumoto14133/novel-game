@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <title>END OBSERVER</title>
+    <title>約束の1週間</title>
     <link rel="stylesheet" href="style.css">  <!-- CSSファイルを読み込む -->
   </head>
 
@@ -13,7 +13,7 @@
       <div class="background" id="bg2"></div>
 
       <!-- キャラクター画像 -->
-      <div class="character" id="char-main">
+      <div class="character center-x" id="char-main">
         <img alt="主人公">
       </div>
       <div class="character" id="char-wife">
@@ -24,10 +24,10 @@
       </div>
 
       <!-- ゲームタイトル -->
-      <h1 id="game-title"></h1>
+      <h1 class="center-x" id="game-title"></h1>
 
       <!-- 経過日数 -->
-      <h2 id="days"></h2>
+      <h2 class="center-xy" id="days"></h2>
 
       <!-- セットアップボタン（セーブボタン、タイトルへボタン） -->
       <div id="setup-button-container">
@@ -36,17 +36,17 @@
       </div>
 
       <!-- BGMのオン/オフ切り替えボタン -->
-      <button id="bgm-toggle" style="cursor: pointer;">🔈</button>
+      <button id="bgm-toggle">🔈</button>
 
       <!-- ゲーム内の選択肢 -->
-      <div id="choices" style="display: none;" class="choices-box">
+      <div class="flex-center" id="choices" >
         <!-- 選択肢のボタンはJSで作るため空 -->
       </div>
 
       <!-- タイトル画面のフレーム兼、確認画面のフレーム -->
-      <div id="title-box">
+      <div class="flex-center center-xy" id="title-box">
         <!-- タイトル画面時のボタン -->
-        <div id="title-button-container">
+        <div class="center-xy" id="title-button-container">
           <button class="title-button" id="newgame">New Game</button>
           <button class="title-button" id="continue">Continue Game</button>
           <button class="title-button" id="reset">Reset Data</button>
@@ -55,11 +55,11 @@
         <!-- 確認画面時のテキスト -->
         <div id="check-message"></div>
         <!-- 確認画面時のボタン -->
-        <div id="check-button-row">
+        <div class="flex-center center-x" id="check-button-container">
           <button class="check-button" id="yes">はい</button>
           <button class="check-button" id="no">いいえ</button>
         </div>
-        <button id="back">戻る</button> <!-- ヒント表示時のボタン -->
+        <button class="center-x" id="back">戻る</button> <!-- ヒント表示時のボタン -->
       </div>
 
       <!-- 吹き出し -->
@@ -73,8 +73,9 @@
     </div>
 
     <!-- エンドロール -->
-    <div id="endroll-container" style="display: none;">
+    <div class="flex-center" id="endroll-container">
       <div id="endroll-text">
+        <h1 class = "endroll-title"></h1>
         <p>製作：松本</p>
         <p>BGM：魔王魂</p>
         <p>イラスト：ChatGPT</p>

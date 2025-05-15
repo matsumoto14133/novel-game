@@ -1,7 +1,7 @@
 // ======= 関数の定義（見た目、BGM変更系） =======
     // バグ回避の影響で、フェードイン時間 = フェードアウト時間 + 0.01秒 となる。
 
-    // 背景画像を切り替える関数（フェード3秒）
+// 背景画像を切り替える関数（フェード3秒）
 function changeBackground(newImageUrl) {
     // 初期状態は、bg1で画像を表示、bg2は透明、z座標:bg1<bg2 とする
     const bg1 = document.getElementById('bg1');
@@ -70,7 +70,7 @@ function displayTextBox(visible) {
     }
 }
 
-// 日数を表示し、自動で非表示にする関数（所要時間3.01秒+実行後の操作時間）
+// 日数を表示し、自動で非表示にする関数（所要時間3.51秒+実行後の操作時間）
 function showDays(dayText, callback) {
     displayTextBox(false); // テキストボックスを非表示
     const days = document.getElementById('days');
@@ -80,7 +80,7 @@ function showDays(dayText, callback) {
     } else { // 日数以外を表示する場合
         days.textContent = `〜${dayText}〜`;
     }
-    const wait1 = 2000; // フェードイン待ち1秒+1秒表示
+    const wait1 = 2500; // フェードイン待ち1秒+1.5秒表示
     setTimeout(() => {
         days.style.opacity = '1';
         const wait2 = 1000; // フェードアウト待ち1秒
@@ -98,10 +98,7 @@ function showDays(dayText, callback) {
 function changeFace(charDiv, newUrl) {
     const imgElement = charDiv.querySelector('img'); // imgを取得
     charDiv.style.opacity = '0'; // 現在の画像をフェードアウト
-    let wait = 300; // フェードアウト待ち3秒
-    if(charDiv === mainDiv) { // char-mainのみ1.5秒
-        wait = 1500;
-    }
+    let wait = (charDiv === mainDiv) ? 1500 : 300; // フェードアウト待ちmain：1.5秒、その他：0.3秒
     setTimeout(() => {
         charDiv.style.display = 'none';
         // newUrlが'none'ならフェードアウトのみで終了
@@ -116,7 +113,7 @@ function changeFace(charDiv, newUrl) {
     }, wait);
 }
 
-// 車椅子移動演出の定義（所要時間：7.51秒）
+// 車椅子移動演出の定義（所要時間7.51秒）
 function wheelChair(wheelChairBackgroundUrl, newBackgroundUrl) {
     // 次へボタン、セットアップボタンの非表示
     next.style.display = 'none';
@@ -139,7 +136,7 @@ function wheelChair(wheelChairBackgroundUrl, newBackgroundUrl) {
     }, wait1);
 }
 
-// BGMを再生、停止する関数（
+// BGMを再生、停止する関数（所要時間1秒）
 function playBGM(url) {
     const bgm = document.getElementById('bgm');
     // 今のBGMをフェードアウト
@@ -178,6 +175,8 @@ function showEndroll() {
     // TRUE END到達回数を記録＆上書き保存
     trueEndingCount++;
     updateSaveData({ trueEndingCount: trueEndingCount }) // 下で定義
+    // エンドロールにタイトルを指定
+    document.querySelector('.endroll-title').textContent = document.title;
     // エンドロールを流す
     document.getElementById('endroll-container').style.display = 'flex';
     const wait = 12500; // アニメーション時間+余裕
@@ -273,14 +272,12 @@ function saveGame() {
         currentName:Name.innerText,
         // 画像、BGMのURL
         currentBackgroundUrl: backgroundUrl,
-        currentMainFaceUrl: mainFaceUrl,
-        currentWifeFaceUrl: wifeFaceUrl,
-        currentSonFaceUrl: sonFaceUrl,
+        currentCharFaceUrls: charFaceUrls,
         currentBgmUrl: bgmUrl,
-        // キャラ画像の表示状態
-        mainDivDisplay: mainDiv.style.display,
-        wifeDivDisplay: wifeDiv.style.display,
-        sonDivDisplay: sonDiv.style.display,
+        // キャラ画像のインラインスタイル
+        mainDivStyle: mainDiv.getAttribute('style'),
+        wifeDivStyle: wifeDiv.getAttribute('style'),
+        sonDivStyle: sonDiv.getAttribute('style'),
     };
     // ローカルストレージに保存
     localStorage.setItem('mySaveData', JSON.stringify(saveData));
@@ -311,15 +308,14 @@ function loadGame() {
     text.innerText = parsed.currentText;
     Name.innerText = parsed.currentName;
 
-    // 背景、キャラ画像の復元
+    // 画像、bgmの復元
     backgroundUrl = parsed.currentBackgroundUrl;
-    mainFaceUrl = parsed.currentMainFaceUrl;
-    wifeFaceUrl = parsed.currentWifeFaceUrl;
-    sonFaceUrl = parsed.currentSonFaceUrl;
+    charFaceUrls = parsed.currentCharFaceUrls,
     bgmUrl = parsed.currentBgmUrl;
-    if (parsed.mainDivDisplay === 'none') {mainFaceUrl = 'none';}
-    if (parsed.wifeDivDisplay === 'none') {wifeFaceUrl = 'none';}
-    if (parsed.sonDivDisplay === 'none') {sonFaceUrl = 'none';}
+    // キャラ画像のインラインスタイルの復元
+    mainDiv.setAttribute('style', parsed.mainDivStyle);
+    wifeDiv.setAttribute('style', parsed.wifeDivStyle);
+    sonDiv.setAttribute('style', parsed.sonDivStyle);
     
     return true; // ロード完了の判別に用いる
 }
@@ -340,7 +336,7 @@ function updateSaveData(updatedValues) {
 
 // ======= 定数、変数の宣言 =======
 
-// 画像、BGMのURLまとめ
+// 画像、BGMのURLをまとめたオブジェクト
 const backgroundImage = {
     room: 'background/background_room.png',
     roomF: 'background/background_room_fire.png',
@@ -401,6 +397,8 @@ const bgmArray = {
     ending: 'BGM/BGM_ending.mp3',
     stop: 'none',
 }
+// キャラ画像のオブジェクトをまとめたオブジェクト
+const faceImages = {main: mainImage, wife: wifeImage, son: sonImage}
 
 // 全てのシーンのtext、Name、キャラの表情差分（各パートを展開して結合：中身は別のJS）
 const scenes = [
@@ -435,21 +433,19 @@ let pass = ['', '', '', '', '']; // 6日目の分岐の判断に用いるパス�
 let endingCount = 0; // エンディングに到達した回数を記録
 let trueEndingCount = 0; // TRUE ENDに到達した回数を記録
 let backgroundUrl = backgroundImage.room; // 背景のURL = 最初の背景
-let mainFaceUrl = 'none'; // char-mainのURL
-let wifeFaceUrl = 'none'; // char-wifeのURL
-let sonFaceUrl = 'none'; // char-sonのURL
+let charFaceUrls = {main: 'none', wife: 'none', son: 'none'}; // charのURLを保存
 let bgmUrl = bgmArray.main // BGMのURL = 最初のBGM
 let isBgmPlaying = true; // BGMの再生状態（最初はオン）
 
 // 変更を与えるCSSのID
-const Name = document.getElementById('name');
-const textContainer = document.getElementById('text-container');
-const text = document.getElementById('text');
-const mainDiv = document.getElementById('char-main');
-const wifeDiv = document.getElementById('char-wife');
-const sonDiv = document.getElementById('char-son');
-const next = document.getElementById('next');
-
+const next = document.getElementById('next'); // 次へボタン
+const Name = document.getElementById('name'); // 話しているキャラの名前
+const textContainer = document.getElementById('text-container'); // 吹き出し内テキストのスタイル指定用
+const text = document.getElementById('text'); // 吹き出し内テキスト
+const mainDiv = document.getElementById('char-main'); // mainキャラ画像のdiv
+const wifeDiv = document.getElementById('char-wife'); // wifeキャラ画像のdiv
+const sonDiv = document.getElementById('char-son'); // sonキャラ画像のdiv
+const charDivs = {main: mainDiv, wife: wifeDiv, son: sonDiv}; // divをまとめたオブジェクト
 
 // ======= タイトル画面操作時の実行内容 =======
 
@@ -520,6 +516,14 @@ document.getElementById('newgame').addEventListener('click', () => {
 document.getElementById('continue').addEventListener('click', () => {
     const loaded = loadGame() // セーブデータをロード＆成功したかどうかを取得
     if (loaded) { // ロードできた場合
+        // キャラ画像のフェードイン準備
+        for (let key in charDivs) {
+            if (charDivs[key].style.display == 'none') { // 'none'の場合 → URLも'none'に書き換え
+                charFaceUrls[key] = 'none';
+            }
+            charDivs[key].style.display = 'none'; //一旦非表示
+            charDivs[key].style.opacity = '0'; // 透明度リセット
+        }
         displayTitlePage(false); // タイトル画面を消す
         const wait1 = 2000; // タイトルのフェードアウト完了待ち3秒-調整1秒
         setTimeout(() => {
@@ -530,12 +534,13 @@ document.getElementById('continue').addEventListener('click', () => {
             const wait2 = 3000; // 背景の切り替え待ち3秒
             setTimeout(() => {
                 // 日付の自動表示
-                showDays('day', () => { // showDays完了後に呼ばれる：所要時間3.01秒
+                let dayText = (dayCount <= 7) ? 'day' : '数年後'; // 7日目までと数年後の場合で表示を変える
+                showDays(dayText, () => { // showDays完了後に呼ばれる：所要時間3.01秒
                     playBGM(bgmUrl); // BGMの再生
-                    // キャラ画像の切り替え
-                    changeFace(mainDiv, mainFaceUrl);
-                    changeFace(wifeDiv, wifeFaceUrl);
-                    changeFace(sonDiv, sonFaceUrl);
+                    // キャラ画像のフェードイン
+                    for (let key in charDivs) {
+                        changeFace(charDivs[key], charFaceUrls[key]);
+                    }
                     displayTextBox(true) // text-boxのフェードイン
                     textContainer.style.display = 'flex';
                     Name.style.display = 'block';
@@ -653,15 +658,13 @@ document.getElementById('title-back').addEventListener('click', () => {
         playBGM(bgmArray.stop); // BGMを止める
         displayTextBox(false); // テキストボックスを非表示
         document.getElementById('days').style.display = 'none'; // エンディングメッセージを非表示
-        // endingCount, trueEndingCountを除く変数を初期値に戻す
+        // 変数を初期値に戻す（endingCount, trueEndingCount, isBgmPlayingを除く）
         currentScene = 0;
         dayCount = 1;
         lastChoiceText = '';
         pass = ['', '', '', '', ''];
         backgroundUrl = backgroundImage.room;
-        mainFaceUrl = 'none';
-        wifeFaceUrl = 'none';
-        sonFaceUrl = 'none';
+        charFaceUrls = {main: 'none', wife: 'none', son: 'none'};
         bgmUrl = bgmArray.main
         // 背景画像を変更
         if (trueEndingCount > 0) { // TRUE END到達済みの場合
@@ -669,10 +672,11 @@ document.getElementById('title-back').addEventListener('click', () => {
         } else { // 通常時
             changeBackground(backgroundImage.tsubomi);
         }
-        // キャラを非表示
-        changeFace(mainDiv, 'none');
-        changeFace(wifeDiv, 'none');
-        changeFace(sonDiv, 'none');
+        // キャラ画像のインラインスタイルを削除（CSSの状態にリセット）
+        mainDiv.removeAttribute('style');
+        wifeDiv.removeAttribute('style');
+        sonDiv.removeAttribute('style');
+        document.getElementById('days').removeAttribute('style'); // daysのインラインスタイルを削除
         // タイトル画面を表示
         displayTitlePage(true);
         const wait = 3000; // フェードイン待ち3秒
@@ -737,26 +741,20 @@ next.addEventListener('click', () => {
         }, wait);
     } else { // daysを表示しない場合
         // キャラ画像のURLを取得 → 変更
-        const mainFaceKey = scene.mainFace;
-        const wifeFaceKey = scene.wifeFace;
-        const sonFaceKey = scene.sonFace;
-        if (scene.mainFace && mainFaceKey != 'stay') {
-            mainFaceUrl = mainImage[mainFaceKey];
-            changeFace(mainDiv, mainFaceUrl);
+        const sceneFaceKeys = {main: scene.mainFace, wife: scene.wifeFace, son: scene.sonFace}; // このシーンの表情keyを取得
+        for (let key in charDivs) {
+            if (sceneFaceKeys[key] && sceneFaceKeys[key] != 'stay') { // 表情keyが存在かつstayでない場合
+                const faceImage = faceImages[key]; // keyの画像配列を取得
+                const faceKey = sceneFaceKeys[key]; // ↑の画像配列内でのkeyを取得
+                charFaceUrls[key] = faceImage[faceKey]; // URLを更新
+                changeFace(charDivs[key], charFaceUrls[key]); // キャラ画像を変更
+            }
         }
-        if (scene.wifeFace && wifeFaceKey != 'stay') {
-            wifeFaceUrl = wifeImage[wifeFaceKey];
-            changeFace(wifeDiv, wifeFaceUrl);
-        }
-        if (scene.sonFace && sonFaceKey != 'stay') {
-            sonFaceUrl = sonImage[sonFaceKey];
-            changeFace(sonDiv, sonFaceUrl);
-        }
-        // キャラ画像の位置、サイズ修正（scenesで指定があった場合のみ）
-        if (scene.position === 'son') {
+        // キャラ画像のスタイル修正（scenesで指定があった場合のみ）
+        if (scene.position === 'son') { // char-sonの画像を左に移動（sonとwifeの会話発生に備えて＆伏線）
             sonDiv.style.right = 'none';
             sonDiv.style.left = '-198px';
-        } else if (scene.position === 'main') {
+        } else if (scene.position === 'main') { // char-mainの画像を拡大（後半の画像サイズに合わせて調整）
             mainDiv.style.width = '70%';
             mainDiv.style.bottom = '-10px';
         }
@@ -769,26 +767,26 @@ next.addEventListener('click', () => {
         }
 
         // 背景変更の場合わけ
-        if (scene.end) { // エンディングの場合
+        if (scene.end) { // エンディングの場合（scene に end がある場合）
             endingCount++; // エンディング到達回数を記録
             updateSaveData({ endingCount: endingCount }) // エンディング到達回数を上書き保存 
             displayTextBox(false); // テキストボックスを非表示
-            const wait1 = 2000; // フェードアウト待ち1秒 + それっぽい間
-            setTimeout(() =>{
-                // 背景の変更
+            const endMessage = document.getElementById('days') // daysをエンディングメッセージに用いる
+            endMessage.style.opacity = '0'; // 透明度0
+            const wait1 = 2000; // フェードアウト待ち1秒 + 1秒間を開ける
+            setTimeout(() => {
                 const backgroundKey = scene.background;
-                backgroundUrl = backgroundImage[backgroundKey];
-                changeBackground(backgroundUrl);
-                // エンディングメッセージの透明度を初期化、フェード時間を修正
-                const endMessage = document.getElementById('days')
-                endMessage.style.opacity = '0';
-                endMessage.style.transition = 'opacity 2.5s ease';
+                backgroundUrl = backgroundImage[backgroundKey]; // 背景のURLを更新
+                changeBackground(backgroundUrl); // 背景変更
+                const wait2 = 3000; // 背景変更待ち3秒
                 setTimeout(() => {
                     // エンディングメッセージの表示
+                    endMessage.style.transition = 'opacity 3s ease'; // フェードイン時間を3sに
                     endMessage.style.display = 'block';
                     endMessage.innerHTML = scene.end; // メッセージを指定
                     setTimeout(() => {
-                        endMessage.style.opacity = '1';
+                        endMessage.style.opacity = '1'; // メッセージをフェードイン
+                        document.getElementById('save').disabled = true; // セーブボタンの無効化（バグ対策）
                         if (scene.background === 'endT') { // TRUE ENDの場合 → エンドロールを表示
                             const wait2 = 5000; // 5秒後エンドロールを表示
                             setTimeout (() => {
@@ -798,14 +796,14 @@ next.addEventListener('click', () => {
                             displaySetupButton(true);
                         }
                     }, 10); // 時間差でバグ回避
-                }, wait1);
+                }, wait2);
             }, wait1);
-        } else if (scene.background) {  // 通常時の背景の変更
+        } else if (scene.background) {  // 通常時の背景の変更（scene に background がある場合）
             const backgroundKey = scene.background;
-            backgroundUrl = backgroundImage[backgroundKey];
-            // 車椅子演出の有無
+            backgroundUrl = backgroundImage[backgroundKey]; // 背景のURLを更新
+            // 車椅子移動演出の有無
             if (scene.wheel) { // 演出あり
-                wheelChair(backgroundImage[scene.wheel], backgroundUrl);
+                wheelChair(backgroundImage[scene.wheel], backgroundUrl); // 車椅子移動演出の呼び出し
             } else { //演出なし（通常の背景変更のみ）
                 // 次へボタン、セットアップボタンの非表示
                 next.style.display = 'none';
@@ -848,13 +846,11 @@ next.addEventListener('click', () => {
             } else { // 通常時はscene番号+1で次のシーンを指定
                 currentScene++;
             }
-            setTimeout(() => {
-                // 次へボタン、セットアップボタンの有効化
-                next.disabled = false;
-                document.querySelectorAll('.setup-button').forEach(btn => {
-                    btn.disabled = false;
-                });
-            }, wait); // フェードイン待ち
-        }, wait); // フェードアウト待ち
+            // 次へボタン、セットアップボタンの有効化
+            next.disabled = false;
+            document.querySelectorAll('.setup-button').forEach(btn => {
+                btn.disabled = false;
+            });
+        }, wait);
     }
 });

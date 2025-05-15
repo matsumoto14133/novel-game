@@ -1,347 +1,335 @@
 html, body {
-    margin: 0;
-    height: 100%;
-    background-color: #222;
-    color: white;
-    font-family: sans-serif;
-    text-align: center;
-    padding: 50px;
-  }
-
-  /* ボタンの色 */
-  button {
-    background-color: rgba(255, 255, 255, 0.7); /* 半透明の白 */
-    white-space: nowrap;       /* 改行を禁止 */
-    width: auto;               /* コンテンツに応じて横幅を自動調整 */
-  }
-  button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-
-  /* 背景画像の設定 */
-  #background-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    transition: opacity 3s ease;
-    opacity: 0; /* 初期状態は非表示 */
-  }  
-  #bg1 {
-    opacity: 1; /* 初期の背景は表示状態 */
-  }
-
-  /* キャラクター画像設定 */
-  .character {
-    opacity: 0;
-    position: absolute;
-    bottom: 194px;
-    transition: opacity 0.3s ease, transform 0.5s ease;
-    display: none;
-  }
-  #char-main {
-    transition: opacity 1.5s ease;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%; /* 全体サイズ調整 */
-    display: block;
-  }
-  #char-main img {
-    width:100%;   /* divに合わせて拡大縮小 */
-    height: auto;
-    display: block;
-  }
-  #char-wife {
-    right: -207px;
-    width: 60%;
-    height: auto;
-  }
-  #char-son {
-    right: -207px;
-    width: 60%;
-    height: auto;
-  }
+  margin: 0;
+  height: 100%;
+  background-color: #222;
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 50px;
+}
   
-  /* タイトルの設定 */
-  #game-title {
-    opacity: 1;
-    transition: opacity 3s ease;
-    position: absolute;
-    top: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 60px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 4px #000;
-    margin: 0;
-    padding: 0;
-    line-height: 1;
-  }
+/* 背景画像の設定 */
+#background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 3s ease;
+  opacity: 0; /* 初期状態は非表示 */
+}  
+#bg1 {
+  opacity: 1; /* 初期の背景は表示状態 */
+}
 
-  /* 経過日数 */
-  #days {
-    opacity: 0;
-    transition: opacity 1s ease;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 70px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 4px 4px 8px #000;
-    margin: 0;
-    padding: 0;
-    width: auto; 
-    line-height: 1;
-    white-space: nowrap;       /* 改行を禁止 */
-  }
+/* キャラクター画像設定 */
+.character {
+  opacity: 0;
+  position: absolute;
+  bottom: 194px; /* 吹き出しの上の位置に調整 */ 
+  transition: opacity 0.3s ease;
+  display: none;
+}
+#char-main {
+  transition: opacity 1.5s ease; /* mainのみ1.5s */
+  position: absolute;
+  width: 50%; /* 全体サイズ調整 */
+}
+#char-main img {
+  width:100%;   /* divに合わせて拡大縮小 */
+  height: auto;
+}
+#char-wife {
+  right: -207px;
+  width: 60%;
+  height: auto;
+}
+#char-son {
+  right: -207px;
+  width: 60%;
+  height: auto;
+}
 
-  /* セットアップボタン */
-  #setup-button-container {
-    display: flex;
-    flex-direction: column; /* 縦に並べる */
-    align-items: left; /* 左揃え */
-    gap: 15px; /* ボタン同士の間隔 */
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-  .setup-button {
-    display: none;
-    font-size: 15px;
-    padding: 10px;
-    width: 110px;
-    color: black;
-    border: 1px solid black;
-    cursor: pointer;
-  }
+/* ボタンの仕様 */
+button {
+  background-color: rgba(255, 255, 255, 0.7); /* ボタンの色：半透明の白 */
+  white-space: nowrap; /* 改行を禁止 */
+  border: 1px solid black; /* 線の色：黒 */
+  width: auto; /* コンテンツに応じて横幅を自動調整 */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 
-  /* BGMのオン/オフ切り替えボタン */
-  #bgm-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    font-size: 28px;
-    border-radius: 12px;
-    width: 60px;
-    background: rgba(255, 255, 255, 0.494); 
-    border: 1px solid black;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 10;
-  }
-  #bgm-toggle:hover {
-    border: 1px solid red;
-  }
+/* 見出しの仕様 */
+h1, h2{
+  white-space: nowrap; /* 改行を禁止 */
+  font-family: "HGS明朝B", "ヒラギノ明朝 ProN", "serif";
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px #000;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
 
-  /* ゲーム分岐の選択肢 */
-  .choices-box {
-    position: absolute;
-    display: flex;
-    flex-direction: column; /* 縦に並べる */
-    align-items: center; /* 中央揃え */
-    gap: 60px; /* ボタン同士の間隔 */
-    top: 38%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 両方向中央寄せ */
-    z-index: 10;
+/* タイトル画面のタイトル */
+#game-title {
+  opacity: 1;
+  transition: opacity 3s ease;
+  top: 35px;
+  font-size: 60px;
+}
+
+/* 経過日数 */
+#days {
+  opacity: 0;
+  transition: opacity 1s ease;
+  font-size: 70px;
+}
+
+/* セットアップボタン */
+#setup-button-container {
+  display: flex;
+  flex-direction: column; /* 縦に並べる */
+  align-items: left; /* 左揃え */
+  gap: 15px; /* ボタン同士の間隔 */
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.setup-button {
+  display: none;
+  font-size: 15px;
+  padding: 10px;
+  width: 110px;
+}
+
+/* BGMのオン/オフ切り替えボタン */
+#bgm-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  border-radius: 12px; /* 角を丸める */
+  width: 60px;
+  background: rgba(255, 255, 255, 0.494); /* 他のボタンより濃い */
+  padding: 10px;
+  z-index: 10;
+}
+#bgm-toggle:hover {
+  border: 1px solid red;
+}
+
+/* ゲーム分岐の選択肢 */
+#choices {
+  flex-direction: column; /* 縦に並べる */
+  gap: 60px; /* ボタン同士の間隔 */
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 中央寄せ */
+  z-index: 10;
+}
+.choice { /* JSで作ったボタンに適用 */
+  padding: 10px 20px;
+  font-size: 54px;
+  border-radius: 8px; /* 角を丸める */
+}
+
+
+/* タイトル画面の吹き出し */
+#title-box {
+  opacity: 1;
+  transition: opacity 1s ease;
+  width: 75%;
+  height: 300px; /* 高さを固定する */
+  padding: 280px;
+  box-sizing: border-box;  /* パディング込みで幅と高さを維持 */
+  background: rgba(0, 0, 0, 0.515);
+  color: white;
+  text-align: center;
+  z-index: 1;
+}
+
+
+/* タイトル画面の選択肢 */
+#title-button-container {
+  display: flex;
+  flex-direction: column; /* 縦に並べる！ */
+  align-items: center; /* 中央揃え */
+  gap: 50px; /* ボタン同士の間隔をあける */
+}
+.title-button {
+  opacity: 1;
+  transition: opacity 1s ease;
+  font-size: 40px;
+  padding: 13px;
+  width: 800px;
+  border: 1.5px solid black;
+}
+
+/* タイトルバック時の確認画面 */
+#check-message{
+  display: none;
+  opacity: 1;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 42px;
+  width: auto;
+  line-height: 1;
+  white-space: nowrap;
+}
+#check-button-container {
+  gap: 75px;
+  margin-top: 60px;
+}
+  .check-button {
+  display: none;
+  opacity: 1;
+  font-size: 40px;
+  padding: 20px;
+  width: 250px;
+}
+/* ヒント時の戻るボタン */
+#back {
+  display: none;
+  opacity: 1;
+  bottom: 18%;
+  font-size: 40px;
+  padding: 18px;
+  width: 220px;
+}
+
+/* 吹き出し */
+#text-box {
+  display: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: absolute;
+  bottom: 0; /* 画面下に固定 */
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.6); /* 半透明の黒 */
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+/* 吹き出し内のテキスト */
+#name{
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 36px;
+}
+#text-container {
+  display: flex;
+  align-items: center; /* 縦方向中央揃え */
+  justify-content: center; /* 横方向中央揃え */
+  height: 200px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#text {
+  font-size: 34px;
+  text-align: center;
+  line-height: 1.5;
+}
+#next {
+  display: none; /* 最初は隠しておく！ */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: black;
+  border: none;
+  border-radius: 9px; /* 角を丸める */
+  cursor: pointer;
+}
+
+#endroll-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  overflow: hidden;
+  z-index: 9999;
+}
+#endroll-text {
+  font-size: 40px;
+  line-height: 2;
+  text-align: center;
+  animation: scroll-up 14s linear forwards;
+}
+.endroll-title {
+  font-size: 50px;
+  margin-bottom: 80px;  /* 下にスペース */
+}  
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(100%); /* 画面の下から */
   }
-  .choice { /* JSで作ったボタンに適用 */
-    padding: 10px 20px;
-    font-size: 54px;
-    border: 1px solid black;
-    border-radius: 8px;
-    cursor: pointer;
+  100% {
+    transform: translateY(-130%); /* 上まで完全に通過させる */
   }
+}
   
+/* === 共通ユーティリティクラス === */
+.box {
+  transition: opacity 1s ease;
+  box-sizing: border-box;  /* パディング込みで幅と高さを維持 */
+  background: rgba(0, 0, 0, 0.515);
+  color: white;
+  text-align: center;
+}
 
-  /* タイトル画面の吹き出し */
-  #title-box {
-    width: 75%;
-    height: 300px;           /* 高さを固定する */
-    padding: 280px;
-    box-sizing: border-box;  /* パディング込みで幅と高さを維持 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.515);
-    color: white;
-    text-align: center;
-    z-index: 1;
-  }
-  
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  /* タイトル画面の選択肢 */
-  #title-button-container {
-    display: flex;
-    flex-direction: column; /* 縦に並べる！ */
-    align-items: center; /* 中央揃え */
-    gap: 50px; /* ボタン同士の間隔をあける */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 中央に配置 */
-  }
-  .title-button {
-    opacity: 1;
-    transition: opacity 1s ease;
-    font-size: 40px;
-    padding: 13px;
-    width: 800px;
-    border: 1.5px solid black;
-    cursor: pointer;
-  }
+.center-x {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
-   /* タイトルバック時の確認画面 */
-  #check-message{
-    display: none;
-    opacity: 1;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    font-size: 42px;
-    width: auto; 
-    line-height: 1;
-    white-space: nowrap;
-  }
-  #check-button-row {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    gap: 75px;
-    left: 50%;
-    transform: translateX(-50%); /* 左右中央に配置 */
-    margin-top: 60px;
-  }
-   .check-button {
-    display: none;
-    opacity: 1;
-    font-size: 40px;
-    padding: 20px;
-    width: 250px;
-    border: 1px solid black;
-    cursor: pointer;
-  }
-  #back {
-    display: none;
-    opacity: 1;
-    position: absolute;
-    bottom: 18%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 40px;
-    padding: 18px;
-    width: 220px;
-    border: 1px solid black;
-    cursor: pointer;
-  }
+.center-xy {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  /* 吹き出し */
-  #text-box {
-    display: none;
-    opacity: 0;
-    transition: opacity 1s ease;
-    position: absolute;
-    bottom: 0; /* 画面下に固定 */
-    width: 100%;
-    height: 200px;
-    background: rgba(0, 0, 0, 0.6); /* 半透明の黒 */
-    color: white;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-  }
-  /* 吹き出し内のテキスト */
-  #name{
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    font-size: 36px;
-  }
-  #text-container {
-    display: flex;
-    align-items: center; /* 縦方向中央揃え */
-    justify-content: center; /* 横方向中央揃え */
-    height: 200px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  #text {
-    font-size: 34px;
-    text-align: center;
-    line-height: 1.5;
-  }
-  #next {
-    display: none; /* 最初は隠しておく！ */
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 8px 14px;
-    font-size: 13px;
-    color: black;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-  }
-  
-  #endroll-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    z-index: 9999;
-  }
-  
-  #endroll-text {
-    font-size: 40px;
-    line-height: 2;
-    text-align: center;
-    animation: scroll-up 12s linear forwards;  /* スクロールを少し速く */
-  }
-  
-  @keyframes scroll-up {
-    0% {
-      transform: translateY(100%); /* 画面の下から */
-    }
-    100% {
-      transform: translateY(-100%); /* 上まで完全に通過させる */
-    }
-  }
-  
-  
+
+
   
   
