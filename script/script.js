@@ -333,6 +333,17 @@ function updateSaveData(updatedValues) {
     localStorage.setItem('mySaveData', JSON.stringify(parsed));
 }
 
+// 画像のプリロード用関数（フェードの乱れ対策）
+function preloadImagesFromObjects(objectsArray) {
+    for (const imageObj of objectsArray) {
+        for (const key in imageObj) {
+            const url = imageObj[key];
+            if (url !== 'none') { // 'none' の場合はスキップ
+                new Image().src = url; // ブラウザに先に画像を読み込ませる
+            }
+        }
+    }
+}
 
 // ======= 定数、変数の宣言 =======
 
@@ -397,10 +408,12 @@ const bgmArray = {
     ending: 'BGM/BGM_ending.mp3',
     stop: 'none',
 }
-// キャラ画像のオブジェクトをまとめたオブジェクト
+// 画像オブジェクトのまとめ配列（プリロード用）
+const imageSources = [backgroundImage, mainImage, wifeImage, sonImage];
+// キャラ画像オブジェクトのまとめオブジェクト（一括画像変更用）
 const faceImages = {main: mainImage, wife: wifeImage, son: sonImage}
 
-// 全てのシーンのtext、Name、キャラの表情差分（各パートを展開して結合：中身は別のJS）
+// 全てのシーンのtext、Name、キャラの表情差分等（各パートを展開して結合：中身は別のJS）
 const scenes = [
     ...scenesPart1_1,
     ...scenesPart1_2,
@@ -464,6 +477,7 @@ window.addEventListener('DOMContentLoaded', () => {
             trueEndingCount = parsed.trueEndingCount;
         }
     }
+    preloadImagesFromObjects(imageSources); // 全ての画像のプリロード
     // 起動時の背景の表示
     const bg1 = document.getElementById('bg1');
     if (trueEndingCount > 0) { // TRUE END回収後

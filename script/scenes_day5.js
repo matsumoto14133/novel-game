@@ -42,7 +42,7 @@ const scenesPart5_1 = [
     },
     {
         name: '',
-        text: '今日も病気の具合が悪いようだ。<br>しかし、昨日に比べるとまだマシだ。',
+        text: '今日も病気の具合が悪いようだ。<br>しかし、昨日に比べるとまだマシな気もする。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },

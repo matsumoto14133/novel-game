@@ -102,7 +102,7 @@ const scenesPart6_1 = [
     },
     {
         name: '',
-        text: 'よく考えれば毎日来る理由もない。<br>そんなに気にすることはないか。。',
+        text: 'よく考えれば毎日来る理由もない。<br>そんなに気にすることはないか。',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
