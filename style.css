@@ -60,8 +60,9 @@ html, body {
 
 /* ボタンの仕様 */
 button {
-  background-color: rgba(255, 255, 255, 0.7); /* ボタンの色：半透明の白 */
   white-space: nowrap; /* 改行を禁止 */
+  background-color: rgba(255, 255, 255, 0.7); /* ボタンの色：半透明の白 */
+  color: black;
   border: 1px solid black; /* 線の色：黒 */
   width: auto; /* コンテンツに応じて横幅を自動調整 */
   cursor: pointer;
@@ -151,23 +152,15 @@ h1, h2{
 /* タイトル画面の吹き出し */
 #title-box {
   opacity: 1;
-  transition: opacity 1s ease;
   width: 75%;
   height: 300px; /* 高さを固定する */
   padding: 280px;
-  box-sizing: border-box;  /* パディング込みで幅と高さを維持 */
-  background: rgba(0, 0, 0, 0.515);
-  color: white;
-  text-align: center;
   z-index: 1;
 }
 
-
 /* タイトル画面の選択肢 */
 #title-button-container {
-  display: flex;
   flex-direction: column; /* 縦に並べる！ */
-  align-items: center; /* 中央揃え */
   gap: 50px; /* ボタン同士の間隔をあける */
 }
 .title-button {
@@ -180,7 +173,7 @@ h1, h2{
 }
 
 /* タイトルバック時の確認画面 */
-#check-message{
+#check-message{ /* 確認メッセージ */
   display: none;
   opacity: 1;
   position: absolute;
@@ -197,7 +190,7 @@ h1, h2{
   gap: 75px;
   margin-top: 60px;
 }
-  .check-button {
+.check-button { /* 確認ボタン */
   display: none;
   opacity: 1;
   font-size: 40px;
@@ -218,19 +211,13 @@ h1, h2{
 #text-box {
   display: none;
   opacity: 0;
-  transition: opacity 1s ease;
   position: absolute;
   bottom: 0; /* 画面下に固定 */
   width: 100%;
   height: 200px;
-  background: rgba(0, 0, 0, 0.6); /* 半透明の黒 */
-  color: white;
   padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
 }
-/* 吹き出し内のテキスト */
-#name{
+#name{ /* 名前 */
   opacity: 0;
   transition: opacity 0.5s ease;
   position: absolute;
@@ -251,24 +238,22 @@ h1, h2{
   opacity: 0;
   transition: opacity 0.5s ease;
 }
-#text {
+#text { /* テキスト */
   font-size: 34px;
   text-align: center;
-  line-height: 1.5;
 }
-#next {
-  display: none; /* 最初は隠しておく！ */
+#next { /* 次へボタン */
+  display: none;
   position: absolute;
   bottom: 10px;
   right: 10px;
   padding: 8px 14px;
   font-size: 13px;
-  color: black;
   border: none;
   border-radius: 9px; /* 角を丸める */
-  cursor: pointer;
 }
 
+/* エンドロール */
 #endroll-container {
   display: none;
   position: fixed;
@@ -302,7 +287,7 @@ h1, h2{
 }
   
 /* === 共通ユーティリティクラス === */
-.box {
+.box-style {
   transition: opacity 1s ease;
   box-sizing: border-box;  /* パディング込みで幅と高さを維持 */
   background: rgba(0, 0, 0, 0.515);
@@ -312,8 +297,8 @@ h1, h2{
 
 .flex-center {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* 横方向中央揃え */
+  align-items: center; /* 縦方向中央揃え */
 }
 
 .center-x {
