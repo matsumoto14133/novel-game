@@ -1,5 +1,5 @@
 // 6日目通常パート（BAD END①ルート）
-const scenesPart6_1 = [
+export const scenesPart6_1 = [
     {
         name: '',
         text: '寝ている間、玄関の方から微かに昨日までと同じ声が聞こえてきた。',
@@ -195,7 +195,7 @@ const scenesPart6_1 = [
     },
 ];
 // 6日目隠しパート（END分岐）
-const scenesPart6_2 = [
+export const scenesPart6_2 = [
     {
         name: '',
         text: '寝ている間、玄関の方から微かに昨日までと同じ声が聞こえてきた。',

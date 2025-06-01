@@ -1,5 +1,5 @@
 // 6日目玄関パート（END分岐）
-const scenesPart6_2_3 = [
+export const scenesPart6_2_3 = [
     {
         name: '',
         text: 'そうだ、一度この家を離れよう。',
@@ -254,7 +254,7 @@ const scenesPart6_2_3 = [
     },
 ];
 // 6日目留守番パート（BAD END③ルート）
-const scenesPart6_2_3_1 = [
+export const scenesPart6_2_3_1 = [
     {
         name: 'ゆうた',
         text: '「わかったよ。」',
@@ -341,7 +341,7 @@ const scenesPart6_2_3_1 = [
     },
 ];
 // 6日目追従パート（TRUE ENDルート）
-const scenesPart6_2_3_2 = [
+export const scenesPart6_2_3_2 = [
     {
         name: 'ゆうた',
         text: '「それでもいくよ！」',

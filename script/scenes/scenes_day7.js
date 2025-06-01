@@ -1,5 +1,5 @@
 // 7日目
-const scenesPart7_1 = [
+export const scenesPart7_1 = [
     {
         name: '',
         text: 'そして、',
@@ -23,7 +23,7 @@ const scenesPart7_1 = [
         end: 'BAD END①<br>「死」',
     },
 ];
-const scenesPart7_2 = [
+export const scenesPart7_2 = [
     {
         name: '',
         text: 'そして、',
@@ -53,7 +53,7 @@ const scenesPart7_2 = [
         end: 'HAPPY END<br>「穏やかな死」',
     },
 ];
-const scenesPart7_3 = [
+export const scenesPart7_3 = [
     {
         name: '',
         text: 'しかし、翌日になっても、',
@@ -78,7 +78,7 @@ const scenesPart7_3 = [
         end: 'BAD END③<br>「帰らぬ人」'
     },
 ];
-const scenesPart7_4 = [
+export const scenesPart7_4 = [
     {
         name: '',
         text: 'あの後、僕は救急車を呼んだ。',
@@ -214,7 +214,7 @@ const scenesPart7_4 = [
     },
     {
         name: 'ゆうた',
-        text: '「母さんは昔、苦手そうにしてたけど、話したらすごくいい人だったよ。」',
+        text: '「母さんは苦手そうにしてたけど、話したらすごくいい人だったよ。」',
         wifeFace: 'stay',
         sonFace: 'stay',
     },
@@ -243,6 +243,6 @@ const scenesPart7_4 = [
         sonFace: 'hidden',
         background: 'endT',
         bgm: 'main',
-        end: 'TRUE END<br>「受け継がれた意志」'
+        end: 'TRUE END<br>「約束」'
     },
 ];

@@ -1,5 +1,5 @@
 // 6日目自白パート（HAPPY ENDルート）
-const scenesPart6_2_1 = [
+export const scenesPart6_2_1 = [
     {
         name: '',
         text: 'そうだ、見なかったことにしよう。',
@@ -432,7 +432,7 @@ const scenesPart6_2_1 = [
     },
 ];
 // 6日目火事パート（BAD END②ルート）
-const scenesPart6_2_2 = [
+export const scenesPart6_2_2 = [
     {
         name: 'あなた',
         text: '「ゆみこ、何してるの？」',
@@ -721,6 +721,6 @@ const scenesPart6_2_2 = [
         wifeFace: 'stay',
         sonFace: 'stay',
         background: 'endB2',
-        end: 'BAD END②<br>「炎の中へ消えた真相」'
+        end: 'BAD END②<br>「炎に消えた真相」'
     },
 ];

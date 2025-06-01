@@ -1,5 +1,5 @@
 // 1日目部屋パート
-const scenesPart1_1 = [
+export const scenesPart1_1 = [
     {
         name: '',
         text: '目が覚めた。時計を見るともう昼過ぎのようだ。',
@@ -218,7 +218,7 @@ const scenesPart1_1 = [
     },
 ];
 // 1日目庭パート
-const scenesPart1_2 = [
+export const scenesPart1_2 = [
     {
         name: '',
         text: 'ゆみこと俺は庭へ移動した。',

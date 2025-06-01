@@ -1,5 +1,5 @@
 // 5日目部屋パート
-const scenesPart5_1 = [
+export const scenesPart5_1 = [
     {
         name: '',
         text: '寝ている間、玄関の方から微かに声が聞こえてきた。',
@@ -191,7 +191,7 @@ const scenesPart5_1 = [
     },
 ];
 // 5日目庭パート
-const scenesPart5_2 = [
+export const scenesPart5_2 = [
     {
         name: '',
         text: 'ゆみこと俺は庭へ移動した。すると玄関には見慣れない石像があった。<br>これも新しく買ったのだろうか？',
